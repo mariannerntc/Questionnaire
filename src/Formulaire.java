@@ -1,0 +1,245 @@
+
+import java.io.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+
+//Attributs     (nomFormulaire, nbQuestions, dateDebut, dateFin, tabQuestions)
+//Constructeurs (1 seul avec en paramètres les 5 attributs)
+//getters       (disponibles pour chaques attributs)
+//Méthodes      (creerFormulaire, modifierFormulaire, supprimerFormulaire, verifieOuiNon)
+public class Formulaire implements Serializable {
+	//Attributs
+    private String nomFormulaire;
+    private int nbQuestions;
+    private String dateDebut;
+    private String dateFin;
+    private Question[] tabQuestions; //un tableau contenant l'ensemble des Questions du Formulaire
+    private static final long serialVersionUID = 6529685098267757690L;
+
+    //Constructeur
+    public Formulaire(String nomFormulaire, int nbQuestions, String dateDebut, String dateFin,  Question[] tabQuestions) {
+        this.nomFormulaire = nomFormulaire;
+        this.nbQuestions = nbQuestions;
+        this.dateDebut = dateDebut;
+        this.dateFin = dateFin;
+        this.tabQuestions = tabQuestions;
+    }
+    
+    //Getters
+    public int getNbQuestions() {return (this.nbQuestions);}
+    public String getDateDebut() {return (this.dateDebut);}
+    public String getDateFin() {return (this.dateFin);}
+    public String getNomFormulaire() {return  (this.nomFormulaire);}
+    public Question[] getTabQuestions() {return this.tabQuestions;}
+    
+    //Postcondition: crée un nouvel objet de type Formulaire suite à quelques questions et l'enregistre
+    public static void creerFormulaire() { 
+    	System.out.println("              -----------------------------------------------------------");
+        System.out.print("              Quel est le nom de votre Formulaire? (sans espace s.v.p.) ");
+        Scanner sc = new Scanner(System.in); //Définie le scanner sc
+        String nomQ = sc.nextLine(); //nomQ est un chaine de caractere correspondant au nom du Formulaire
+        System.out.print("              Combien de question contient votre Formulaire? ");
+        int nbQuestions = sc.nextInt(); //nbQuestions est un entier correspondant au nombre de question du Formulaire
+        System.out.print("              Quelle est sa date de début? (sous forme jj/mm/aaaa) ");
+        sc.nextLine(); //On vide la ligne avant d'en lire une autre sinon il ne demande pas la saisie
+        String dateDebut = sc.nextLine(); //dateDebut est une chaine de caractere correspondante à la date de début de la session du Formulaire
+        System.out.print("              Quelle est sa date de fin? (sous forme jj/mm/aaaa) ");
+        String dateFin = sc.nextLine();//dateFin est une chaine de caractere correspondante à la date de fin du Formulaire
+
+        Question[] tabQuestions = new Question[nbQuestions]; //tabQuestions est un tableau correspondant à l'ensemble des Questions
+
+        for (int i=0; i<nbQuestions; i++) { //boucle permettant de définir toutes les questions du Formulaire
+            int numeroQuestion = i + 1;
+            System.out.println("");
+            System.out.println("              ---Question "+(numeroQuestion)+" sur "+nbQuestions+": ");
+            System.out.print("                  Quel est l'intitulé de la question? ");
+            String intitule = sc.nextLine();
+            System.out.println("");
+            System.out.print("                  Quel est le type de retour attendu? (o pour ouverte, f pour fermée et n pour numérique) ");
+            String typeretour = sc.nextLine(); //Marquer juste o, n ou f
+
+            while(!typeretour.equals("o") && !typeretour.equals("f") && !typeretour.equals("n")){ //tant que la réponse n'est pas o, f ou n
+                System.out.print("                 Veuillez rentrer o, f ou n: ");
+                typeretour = sc.nextLine();
+                System.out.println("");
+            }
+            if(typeretour.equals("f")){ //si c'est une question fermée il y a plusieurs réponses prédéfinies -> Pour le moment ça fonctionne pas des masses
+                System.out.print("                  Combien y a-t-il de réponses possibles? ");
+                int nbRep = sc.nextInt();
+                String[] rePossible = new String[nbRep]; //tableau de string
+                if (nbRep > 0) {
+                    sc.nextLine(); //On vide la ligne avant d'en lire une autre
+                    for (int j=0; j<nbRep; j++) { //On boucle pour obtenir toutes les réponses fermées
+                        System.out.print("                  -Entrez une réponse possible: ");
+                        rePossible[j] = sc.nextLine();
+                    }
+                }
+                tabQuestions[i] = new Question(intitule, typeretour, rePossible); //On remplis le tableau de question avec la nouvelle question
+            }
+            else{ tabQuestions[i] = new Question(intitule, typeretour);} //Sinon on remplis le tableau de question avec la nouvelle question sans tableau
+
+        }
+
+        Formulaire form = new Formulaire(nomQ, nbQuestions, dateDebut, dateFin, tabQuestions); //On crée un nouvel objet Formulaire
+        EnregistrementFormulaire.enregistrerF(form);//on enregistre le formulaire dans un fichier .txt
+
+        try { //Le Fichier ListeFormulaires.txt contient le nom de tous les Formulaires
+            FileWriter fw = new FileWriter("ListeFormulaires.txt", true); //true permet d'écrire à la suite du fichier pour ne pas écraser les données précédentes
+            fw.write(nomQ+"\n");
+            fw.close();
+        } catch (IOException e) { // Se produit lors d'une erreur d'écriture ou de lecture
+            e.printStackTrace();
+            System.out.println("Erreur. Le formulaire n'a pas pu être ajouté à la liste des formulaires.");
+        }
+
+        //Menu.menuAdmin(); //Retour au menu admin
+    }
+
+    //Postcondition: affiche tous les formulaires déjà créés
+    //				 et renvoie une chaine correspondante au choix de l'utilisateur (le nom du formulaire)
+    public static String afficherFormulaires(){
+        System.out.println("           1- Retour                                      ");
+        System.out.println("           2- Quitter le programme                        ");
+        int indice = 3;
+
+        //map permettant d'avoir la correspondance entre le numéro du choix et le nom du Formulaire
+        Map<Integer, String> mapChoix = new HashMap<>();
+
+        //Lecture du fichier ListeFormulaires.txt
+        try{ 
+            InputStream ips = new FileInputStream("ListeFormulaires.txt");
+            InputStreamReader ipsr = new InputStreamReader(ips);
+            BufferedReader br=new BufferedReader(ipsr); 
+            String ligne;
+            while ((ligne=br.readLine())!=null){ //On lit les lignes une par une
+                System.out.println("           "+indice+"- "+ligne); //Pour chaque ligne on affiche le nom du formulaire inscrit
+                mapChoix.put(indice, ligne);
+                indice++;
+            }
+            br.close();
+        }catch (Exception e){System.out.println(e.toString());}
+        
+
+        System.out.print("               Quel est votre choix? ");
+
+        Scanner sc = new Scanner(System.in);
+        //sc.nextLine(); //ca faisait tout bugger
+        int choix = sc.nextInt();
+        choix = Menu.verifieChoix(1,indice,choix,sc);
+       	System.out.println("");
+
+        if (choix<3){
+            if (choix==1) { Menu.menu();}
+            else if(choix==2){ System.out.println("Programme quitté. A bientôt! "); System.exit(0);}
+            else {System.out.println("Erreur de saisie dans afficherFormulaire, interruption du programme.");}
+        }
+        
+        return (mapChoix.get(choix)); //null si la clé 'choix' n'existe pas
+    }
+    
+    //Precondition: nomFormulaire est une chaine correspondant exactement au nom du Formulaire (et du fichier .txt)
+    //Postcondition: met à jour le formulaire choisi après avoir choisi les modifications à faire
+    public static void modifierFormulaire(String nomFormulaire) {
+    	System.out.println("Vous souhaitez modifier le formulaire "+nomFormulaire);
+
+        Formulaire formModif = null;
+        try {
+            formModif = LectureQuestionnaires.lectureFormulaire(nomFormulaire);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        for (int i=0; i <formModif.nbQuestions; i++) {
+            System.out.println("Voulez-vous modifier la question :" + formModif.tabQuestions[i].getIntitule());
+            System.out.println("Répondez par o ou n");
+            Scanner sc = new Scanner(System.in);
+            String choix = sc.nextLine();
+            if (choix.equals("o")) {
+                System.out.println("Saisissez le nouvel intitulé");
+                String nvQuestion = sc.nextLine();
+                formModif.tabQuestions[i].setIntitule(nvQuestion);
+                System.out.println("Le type de retour est : " +  formModif.tabQuestions[i].getTyperetour() + ". Voulez vous le modifier ? (répondre o ou n)");
+                String ifmodif = sc.nextLine();
+                if (ifmodif.equals("o")) {
+                    System.out.println("Saisissez le nouveau type de retour (o pour ouverte, f pour fermée et n pour numérique)");
+                    String nvInt = sc.nextLine();
+                    formModif.tabQuestions[i].setTyperetour(nvInt);
+                }
+            }
+        }
+        System.out.println("Vous avez modifié le formulaire avec succès !"); 
+        File objt_serialize = new File(nomFormulaire+".ser");
+        objt_serialize.delete(); // on supprime le fichier dans lequel l'objet avait été serializé 
+        EnregistrementFormulaire.enregistrerF(formModif);
+    }
+    
+    //Pre : 
+    //Post : permet la suppression d'un formulaire une fois choisi
+    public static void supprimerFormulaire() {
+        System.out.println("Vous souhaitez supprimer un formulaire. Veuillez choisir le numéro correspondant.");
+        String nomFormulaireChoisi = afficherFormulaires();
+
+        String line = null;
+
+        try {
+            FileReader fr = new FileReader("ListeFormulaires.txt");
+            BufferedReader br = new BufferedReader(fr);
+
+            FileWriter fw = new FileWriter("ListeTemp.txt",true); //nouvelle liste des formulaires
+
+            line = br.readLine();
+            while(line != null) {
+                if (!(line.equals(nomFormulaireChoisi))) {
+                    fw.write(line + "\n");
+                }
+                line = br.readLine();
+            }
+            fw.close();
+            br.close();
+     
+            File f = new File("ListeFormulaires.txt");
+            f.delete(); //on supprime l'ancienne liste
+            File e = new File("ListeTemp.txt");
+            e.renameTo(new File("ListeFormulaires.txt")); //on remet l'ancien nom à la nouvelle
+            
+            File objt_serialize = new File(nomFormulaireChoisi+".ser");
+            objt_serialize.delete(); // on supprime le fichier dans lequel l'objet avait été serializé 
+            System.out.println("Contenu de la liste des formulaires bien mise à jour.");
+
+        }
+        catch(FileNotFoundException ex) {
+            System.out.println("Impossible d'ouvrir le fichier ListeFormulaires.txt");
+        }
+        catch(IOException ex) {
+            System.out.println("Impossible de lire le fichier ListeFormulaires.txt");
+        }
+    }
+    
+    
+    //Precondition: rep est de type String et sc est un Scanner
+    //Postcondition: vérifie si la réponse saisie est 'o' ou 'n'
+    public static String verifieOuiNon(){ 
+    	Scanner sc = new Scanner(System.in);
+    	String rep = "";
+    	//TODO corriger le bug en dessous
+    	//Ne rentre jamais ici T_T ... alors qu'il devrait
+    	while(sc.hasNextLine()){ //Le scanner n'a plus de ligne à lire pourquoi? :'(
+    		while (!rep.equals("o") && !rep.equals("n")){
+	    		System.out.print("               Veuillez saisir o ou n: ");
+	            //sc.nextLine();
+	            rep=sc.nextLine();
+    		}
+    	}
+
+        return rep;
+    }
+
+
+    @Override
+    public String toString(){
+        return ("Nom du formulaire: "+this.getNomFormulaire()+ "\n "
+        	  + "Date de debut : "+this.getDateDebut()+"\n"
+        	  + "Date de fin : " +this.getDateFin());
+    }
+}
