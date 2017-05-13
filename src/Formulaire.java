@@ -206,6 +206,8 @@ public class Formulaire implements Serializable {
             
             File objt_serialize = new File(nomFormulaireChoisi+".ser");
             objt_serialize.delete(); // on supprime le fichier dans lequel l'objet avait été serializé 
+            File fichierstat = new File(nomFormulaireChoisi+".csv");
+            fichierstat.delete();
             System.out.println("Contenu de la liste des formulaires bien mise à jour.");
 
         }
