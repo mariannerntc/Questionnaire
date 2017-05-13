@@ -128,6 +128,7 @@ public class Menu {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+        menu();
     }
 
     
