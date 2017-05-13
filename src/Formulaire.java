@@ -48,6 +48,10 @@ public class Formulaire implements Serializable {
         LocalDate dateDebut = verifieConvertisDate(sc.nextLine(), sc);
         System.out.print("              Quelle est sa date de fin? (sous forme jj/mm/aaaa) ");
         LocalDate dateFin = verifieConvertisDate(sc.nextLine(), sc);
+        while(dateFin.isBefore(dateDebut)){
+        	System.out.println("Veuillez indiquer une date postérieur à la date de début.");
+        	dateFin = verifieConvertisDate(sc.nextLine(), sc);
+        }
 
         Question[] tabQuestions = new Question[nbQuestions]; //tabQuestions est un tableau correspondant à l'ensemble des Questions
 
