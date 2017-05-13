@@ -218,8 +218,8 @@ public class Formulaire implements Serializable {
     }
     
 
-    //Pre: dateLue est une chaine de charactere
-    //Post:
+    //Pre: dateLue est une chaine de charactere, sc est un Scanner
+    //Post: renvoie la date saisie sous la forme jj/mm/aaaa et dans le type LocalDate (et non plus une string)
 	public static LocalDate verifieConvertisDate (String dateLue, Scanner sc){
     	LocalDate date = null;
     	while (!(dateLue.matches("[0-9]{2}/[0-9]{2}/[0-9]{4}"))){
@@ -229,8 +229,7 @@ public class Formulaire implements Serializable {
     	try{
         	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy"); //indique le format de la date
             date = LocalDate.parse(dateLue, formatter); //convertis la String en Date
-            //System.out.println(formatter.format(localDate)); //affiche la Date       
-        	
+            //System.out.println(formatter.format(localDate)); //affiche la Date       	
         }catch(Exception e){
         	System.out.println("Votre date n'existe pas. Impossible de la convertir au format date.");
         	System.out.print("Merci de bien vouloir ressaisir une date correcte: ");
