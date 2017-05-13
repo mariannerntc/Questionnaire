@@ -21,7 +21,7 @@ public class Formulaire implements Serializable {
 
     //Constructeur
     public Formulaire(String nomFormulaire, int nbQuestions, LocalDate dateDebut, LocalDate dateFin,  Question[] tabQuestions) {
-        this.nomFormulaire = nomFormulaire;
+        this.nomFormulaire = nomFormulaire; 
         this.nbQuestions = nbQuestions;
         this.dateDebut = dateDebut;
         this.dateFin = dateFin;
