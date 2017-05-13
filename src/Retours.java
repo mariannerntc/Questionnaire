@@ -5,6 +5,7 @@ import java.io.Serializable;
  **/
 public class Retours implements Serializable{
     private String type;
+    private static final long serialVersionUID = 6529685098267757690L;
 
     //Cette classe permet de recupérer les retours aux questions
     public Retours(String typeInit){
