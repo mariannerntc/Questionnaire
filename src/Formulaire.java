@@ -3,22 +3,24 @@ import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 //Attributs     (nomFormulaire, nbQuestions, dateDebut, dateFin, tabQuestions)
 //Constructeurs (1 seul avec en paramètres les 5 attributs)
 //getters       (disponibles pour chaques attributs)
-//Méthodes      (creerFormulaire, modifierFormulaire, supprimerFormulaire, verifieOuiNon)
+//Méthodes      (creerFormulaire, modifierFormulaire, supprimerFormulaire)
 public class Formulaire implements Serializable {
 	//Attributs
     private String nomFormulaire;
     private int nbQuestions;
-    private String dateDebut;
-    private String dateFin;
+    private LocalDate dateDebut;
+    private LocalDate dateFin;
     private Question[] tabQuestions; //un tableau contenant l'ensemble des Questions du Formulaire
     private static final long serialVersionUID = 6529685098267757690L;
 
     //Constructeur
-    public Formulaire(String nomFormulaire, int nbQuestions, String dateDebut, String dateFin,  Question[] tabQuestions) {
+    public Formulaire(String nomFormulaire, int nbQuestions, LocalDate dateDebut, LocalDate dateFin,  Question[] tabQuestions) {
         this.nomFormulaire = nomFormulaire;
         this.nbQuestions = nbQuestions;
         this.dateDebut = dateDebut;
@@ -28,8 +30,8 @@ public class Formulaire implements Serializable {
     
     //Getters
     public int getNbQuestions() {return (this.nbQuestions);}
-    public String getDateDebut() {return (this.dateDebut);}
-    public String getDateFin() {return (this.dateFin);}
+    public LocalDate getDateDebut() {return (this.dateDebut);}
+    public LocalDate getDateFin() {return (this.dateFin);}
     public String getNomFormulaire() {return  (this.nomFormulaire);}
     public Question[] getTabQuestions() {return this.tabQuestions;}
     
@@ -37,15 +39,15 @@ public class Formulaire implements Serializable {
     public static void creerFormulaire() { 
     	System.out.println("              -----------------------------------------------------------");
         System.out.print("              Quel est le nom de votre Formulaire? (sans espace s.v.p.) ");
-        Scanner sc = new Scanner(System.in); //Définie le scanner sc
-        String nomQ = sc.nextLine(); //nomQ est un chaine de caractere correspondant au nom du Formulaire
+        Scanner sc = new Scanner(System.in); 
+        String nomQ = sc.nextLine();
         System.out.print("              Combien de question contient votre Formulaire? ");
-        int nbQuestions = sc.nextInt(); //nbQuestions est un entier correspondant au nombre de question du Formulaire
+        int nbQuestions = sc.nextInt(); 
         System.out.print("              Quelle est sa date de début? (sous forme jj/mm/aaaa) ");
-        sc.nextLine(); //On vide la ligne avant d'en lire une autre sinon il ne demande pas la saisie
-        String dateDebut = sc.nextLine(); //dateDebut est une chaine de caractere correspondante à la date de début de la session du Formulaire
+        sc.nextLine();//On vide la ligne avant d'en lire une autre sinon il ne demande pas la saisie
+        LocalDate dateDebut = verifieConvertisDate(sc.nextLine(), sc);
         System.out.print("              Quelle est sa date de fin? (sous forme jj/mm/aaaa) ");
-        String dateFin = sc.nextLine();//dateFin est une chaine de caractere correspondante à la date de fin du Formulaire
+        LocalDate dateFin = verifieConvertisDate(sc.nextLine(), sc);
 
         Question[] tabQuestions = new Question[nbQuestions]; //tabQuestions est un tableau correspondant à l'ensemble des Questions
 
@@ -78,7 +80,6 @@ public class Formulaire implements Serializable {
                 tabQuestions[i] = new Question(intitule, typeretour, rePossible); //On remplis le tableau de question avec la nouvelle question
             }
             else{ tabQuestions[i] = new Question(intitule, typeretour);} //Sinon on remplis le tableau de question avec la nouvelle question sans tableau
-
         }
 
         Formulaire form = new Formulaire(nomQ, nbQuestions, dateDebut, dateFin, tabQuestions); //On crée un nouvel objet Formulaire
@@ -174,7 +175,7 @@ public class Formulaire implements Serializable {
         EnregistrementFormulaire.enregistrerF(formModif);
     }
     
-    //Pre : 
+    //Pre :  aucune
     //Post : permet la suppression d'un formulaire une fois choisi
     public static void supprimerFormulaire() {
         System.out.println("Vous souhaitez supprimer un formulaire. Veuillez choisir le numéro correspondant.");
@@ -189,8 +190,8 @@ public class Formulaire implements Serializable {
             FileWriter fw = new FileWriter("ListeTemp.txt",true); //nouvelle liste des formulaires
 
             line = br.readLine();
-            while(line != null) {
-                if (!(line.equals(nomFormulaireChoisi))) {
+            while(line != null) { //on recopie la liste des formulaires
+                if (!(line.equals(nomFormulaireChoisi))) { //sauf si la ligne est le formulaire à supprimer
                     fw.write(line + "\n");
                 }
                 line = br.readLine();
@@ -216,23 +217,27 @@ public class Formulaire implements Serializable {
         }
     }
     
-    
-    //Precondition: rep est de type String et sc est un Scanner
-    //Postcondition: vérifie si la réponse saisie est 'o' ou 'n'
-    public static String verifieOuiNon(){ 
-    	Scanner sc = new Scanner(System.in);
-    	String rep = "";
-    	//TODO corriger le bug en dessous
-    	//Ne rentre jamais ici T_T ... alors qu'il devrait
-    	while(sc.hasNextLine()){ //Le scanner n'a plus de ligne à lire pourquoi? :'(
-    		while (!rep.equals("o") && !rep.equals("n")){
-	    		System.out.print("               Veuillez saisir o ou n: ");
-	            //sc.nextLine();
-	            rep=sc.nextLine();
-    		}
-    	}
 
-        return rep;
+    //Pre: dateLue est une chaine de charactere
+    //Post:
+	public static LocalDate verifieConvertisDate (String dateLue, Scanner sc){
+    	LocalDate date = null;
+    	while (!(dateLue.matches("[0-9]{2}/[0-9]{2}/[0-9]{4}"))){
+    		System.out.print("\nVotre date n'est pas correcte, veuillez respecter le format jj/mm/aaaa: ");
+    		dateLue = sc.nextLine();
+    	}
+    	try{
+        	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy"); //indique le format de la date
+            date = LocalDate.parse(dateLue, formatter); //convertis la String en Date
+            //System.out.println(formatter.format(localDate)); //affiche la Date       
+        	
+        }catch(Exception e){
+        	System.out.println("Votre date n'existe pas. Impossible de la convertir au format date.");
+        	System.out.print("Merci de bien vouloir ressaisir une date correcte: ");
+        	verifieConvertisDate(sc.nextLine(), sc);
+        }finally{
+        	return date;
+        }
     }
 
 
