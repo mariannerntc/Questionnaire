@@ -62,7 +62,7 @@ public class Formulaire implements Serializable {
             System.out.print("                  Quel est l'intitulé de la question? ");
             String intitule = sc.nextLine();
             System.out.println("");
-            System.out.print("                  Résumez cette question en un mot: ");
+            System.out.print("                  Résumez cette question en un mot (pour l'associer dans les statistiques): ");
             String intituleCourt = sc.nextLine(); //pour le fichier .csv
             System.out.println("");
             System.out.print("                  Quel est le type de retour attendu? (o pour ouverte, f pour fermée et n pour numérique) ");
