@@ -38,7 +38,7 @@ public class Formulaire implements Serializable {
     //Postcondition: crée un nouvel objet de type Formulaire suite à quelques questions et l'enregistre
     public static void creerFormulaire() { 
     	System.out.println("              -----------------------------------------------------------");
-        System.out.print("              Quel est le nom de votre Formulaire? (sans espace s.v.p.) ");
+        System.out.print("              Quel est le nom de votre Formulaire? ");
         Scanner sc = new Scanner(System.in); 
         String nomQ = sc.nextLine();
         System.out.print("              Combien de question contient votre Formulaire? ");
@@ -48,6 +48,10 @@ public class Formulaire implements Serializable {
         LocalDate dateDebut = verifieConvertisDate(sc.nextLine(), sc);
         System.out.print("              Quelle est sa date de fin? (sous forme jj/mm/aaaa) ");
         LocalDate dateFin = verifieConvertisDate(sc.nextLine(), sc);
+        while(dateFin.isBefore(dateDebut)){
+        	System.out.println("Veuillez indiquer une date postérieur à la date de début.");
+        	dateFin = verifieConvertisDate(sc.nextLine(), sc);
+        }
 
         Question[] tabQuestions = new Question[nbQuestions]; //tabQuestions est un tableau correspondant à l'ensemble des Questions
 
@@ -57,6 +61,9 @@ public class Formulaire implements Serializable {
             System.out.println("              ---Question "+(numeroQuestion)+" sur "+nbQuestions+": ");
             System.out.print("                  Quel est l'intitulé de la question? ");
             String intitule = sc.nextLine();
+            System.out.println("");
+            System.out.print("                  Résumez cette question en un mot: ");
+            String intituleCourt = sc.nextLine(); //pour le fichier .csv
             System.out.println("");
             System.out.print("                  Quel est le type de retour attendu? (o pour ouverte, f pour fermée et n pour numérique) ");
             String typeretour = sc.nextLine(); //Marquer juste o, n ou f
@@ -77,9 +84,9 @@ public class Formulaire implements Serializable {
                         rePossible[j] = sc.nextLine();
                     }
                 }
-                tabQuestions[i] = new Question(intitule, typeretour, rePossible); //On remplis le tableau de question avec la nouvelle question
+                tabQuestions[i] = new Question(intitule, intituleCourt, typeretour, rePossible); //On remplis le tableau de question avec la nouvelle question
             }
-            else{ tabQuestions[i] = new Question(intitule, typeretour);} //Sinon on remplis le tableau de question avec la nouvelle question sans tableau
+            else{ tabQuestions[i] = new Question(intitule, intituleCourt, typeretour);} //Sinon on remplis le tableau de question avec la nouvelle question sans tableau
         }
 
         Formulaire form = new Formulaire(nomQ, nbQuestions, dateDebut, dateFin, tabQuestions); //On crée un nouvel objet Formulaire

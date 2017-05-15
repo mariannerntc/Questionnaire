@@ -6,6 +6,7 @@
 
 
 import java.io.*;
+import java.time.LocalDate;
 import java.util.Scanner;
 
 
@@ -120,14 +121,46 @@ public class Menu {
         String nomFormulaireChoisi = Formulaire.afficherFormulaires();
         
         System.out.println("Le nom du formulaire choisi: "+nomFormulaireChoisi);
-
+        
+        if (!dateCorrecte(nomFormulaireChoisi)){
+        	System.out.println("Vous ne pouvez pas répondre à ce formulaire. Soit la session n'a pas commencée soit elle est finie.");
+        	menuClient();
+        }
+        else{
+            try {
+                Formulaire formulaire = LectureQuestionnaires.lectureFormulaire(nomFormulaireChoisi);
+                EnregistrmentRetours.principale(formulaire);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+        menu();
+    }
+    
+    
+    //Pre: nomFormulaire est une chaine de charactere correspondante à un formulaire existant
+    //Post: renvoie true si la date du jour est entre la date de début et de fin de session du formulaire
+    //      renvoie faux sinon
+    public static boolean dateCorrecte(String nomFormulaire) {
+    	Boolean res = false;
         try {
-            Formulaire formulaire;
-            formulaire = LectureQuestionnaires.lectureFormulaire(nomFormulaireChoisi);
-            EnregistrmentRetours.principale(formulaire);
+        	LocalDate auj = LocalDate.now(); //la date d'aujourd'hui
+            Formulaire formulaire = LectureQuestionnaires.lectureFormulaire(nomFormulaire); //on récupère le formulaire
+            LocalDate debut = formulaire.getDateDebut(); //on note sa date de début
+            LocalDate fin = formulaire.getDateFin(); //et de fin
+          
+
+            /*System.out.println("Aujourd'hui nous sommes le: "+auj);
+            System.out.println("La date debut du formulaire "+nomFormulaire+" est: "+debut);
+            System.out.println("La date limite du formulaire "+nomFormulaire+" est: "+fin);*/
+            
+
+            res = (auj.isAfter(debut) && auj.isBefore(fin));
+            
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+        return res;
     }
 
     

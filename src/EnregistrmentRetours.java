@@ -1,3 +1,4 @@
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
@@ -15,24 +16,39 @@ import java.util.Scanner;
 public class EnregistrmentRetours {
 
 
-    private static void ajout(String nomCsv, String ligneReponse){
+    private static void ajout(String nomCsv, String ligneQuestions, String ligneReponse){
         //Cette méthode ajoute une ligne de réponse au ficher
         // TODO ajoute la ligne ligneReponse au fichier nonmCsv
-        FileWriter fw = null;
-        try {
-            fw = new FileWriter(nomCsv,true);
-            fw.write(ligneReponse + "\n");
-            fw.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
- 
+    	
+    	File monFichier = new File(nomCsv);
+    	if(monFichier.exists()){ // si le fichier .csv existe déjà
+    		
+    		FileWriter fw = null;
+            try {
+                fw = new FileWriter(nomCsv,true);
+                fw.write(ligneReponse + "\n");
+                fw.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+    	} 
+    	else { //sinon il faut ajouter une ligne en plus contenant les questions
+    		FileWriter fw = null;
+            try {
+                fw = new FileWriter(nomCsv,true);
+                fw.write(ligneQuestions + "\n" +ligneReponse + "\n");
+                fw.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+    	}
+
     }
 
     private static String saisieReponse(Formulaire questionnaire){
         //Cette fonction crée la ligne complète de toute les réponses d'un client au questionnaire
 
-        Question[] questions = questionnaire.getTabQuestions();
+        Question[] questions = questionnaire.getTabQuestions(); //le tableau contient des var de type Questions
 
         Scanner sc = new Scanner(System.in);
 
@@ -41,7 +57,7 @@ public class EnregistrmentRetours {
         String ligneReponse = new String();
 
         for(Question question : questions){
-            System.out.println(question);
+            System.out.print(question+" ");
             String typeRetours = question.getTyperetour();
 
             //Ces ifs permettent de différentier les différent types de question
@@ -51,36 +67,45 @@ public class EnregistrmentRetours {
             else if(typeRetours.equals("f")){
                 String[] repPossibles = question.getRepPossible();
                 for(String reponsePossible : repPossibles){
-                    System.out.println(reponsePossible);
+                    System.out.print("\n"+reponsePossible);
                 }
                 do{
-                    System.out.println("Veuillez entrer une des réponses possibles");
+                    System.out.print("\nVeuillez entrer une des réponses possibles: ");
                     retours = sc.nextLine();
                 } while(!(Auxiliaires.existe(retours, repPossibles)));
 
             }
             else{
                 do{
-                    System.out.print("Veuillez saisir un nombre");
+                    System.out.print("\nVeuillez saisir un nombre: ");
                     retours = sc.nextLine();
                 } while (!(Auxiliaires.estUnNombre(retours)));
             }
 
-
             ligneReponse = ligneReponse + retours + ";";
-
+          
         }
         return(ligneReponse);
+    }
+    
+    public static String intituleQuestions(Formulaire questionnaire){
+    	Question[] questions = questionnaire.getTabQuestions(); 
+    	String chaineQuestions = new String();
+    	for(Question q : questions){
+    		chaineQuestions = chaineQuestions + q.getIntituleCourt() + ";";
+    	}
+    	
+    	return(chaineQuestions);
     }
 
     public static void principale(Formulaire questionnaire){
         //C'est cette fonction qui est appellée par le menu
+    	String ligneQuestions = intituleQuestions(questionnaire);
         String ligneRetours = saisieReponse(questionnaire);
-        String nomCsv;
-        nomCsv = questionnaire.getNomFormulaire() + ".csv";
+        String nomCsv = questionnaire.getNomFormulaire() + ".csv";
 
-        ajout(nomCsv, ligneRetours);
+        ajout(nomCsv, ligneQuestions, ligneRetours);
 
-        System.out.println("Merci pour votre contribution");
+        System.out.println("Merci pour votre contribution! ");
     }
 }
