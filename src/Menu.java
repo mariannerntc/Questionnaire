@@ -167,6 +167,18 @@ public class Menu {
     
     public static void stats(){
     	String nomFormulaireChoisi = Formulaire.afficherFormulaires();
+    	System.out.println("Le formulaire choisi est: "+nomFormulaireChoisi);
+    	
+    	File f = new File(nomFormulaireChoisi+".csv");
+    	//methode pour tester l'existence
+    	if ( f.exists() ) {
+    		System.out.println("Le fichier existe bien!");
+    	} else {
+    		System.out.println("Personne n'a répondu au questionnaire!");
+    	}
+    	
+    	
+    	
     	//TODO recuperer une classe Statistics
     	//Afficher les statistiques du choix grâce à R
     }
