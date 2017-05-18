@@ -104,7 +104,8 @@ public class Formulaire implements Serializable {
         //Menu.menuAdmin(); //Retour au menu admin
     }
 
-    //Postcondition: affiche tous les formulaires déjà créés
+    //Precondition: aucune
+    //Postcondition: affiche tous les formulaires déjà créés (en lisant le fichier ListeFormulaire.txt)
     //				 et renvoie une chaine correspondante au choix de l'utilisateur (le nom du formulaire)
     public static String afficherFormulaires(){
         System.out.println("           1- Retour                                      ");
