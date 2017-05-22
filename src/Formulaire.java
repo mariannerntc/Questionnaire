@@ -158,11 +158,10 @@ public class Formulaire implements Serializable {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-
+        Scanner sc = new Scanner(System.in);
         for (int i=0; i <formModif.nbQuestions; i++) {
             System.out.println("Voulez-vous modifier la question :" + formModif.tabQuestions[i].getIntitule());
             System.out.println("Répondez par o ou n");
-            Scanner sc = new Scanner(System.in);
             String choix = sc.nextLine();
             if (choix.equals("o")) {
                 System.out.println("Saisissez le nouvel intitulé");
@@ -177,6 +176,9 @@ public class Formulaire implements Serializable {
                 }
             }
         }
+        System.out.println("Voulez-vous ajouter une question ?");
+        String ch = sc.nextLine();
+        
         System.out.println("Vous avez modifié le formulaire avec succès !"); 
         File objt_serialize = new File(nomFormulaire+".ser");
         objt_serialize.delete(); // on supprime le fichier dans lequel l'objet avait été serializé 
