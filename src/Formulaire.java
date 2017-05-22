@@ -238,10 +238,7 @@ public class Formulaire implements Serializable {
             q = questions[i];
             nvquestions[i] = q;
         }
-
-
-
-
+        nvquestions[l] = question;
     }
 
     //Pre :  aucune
