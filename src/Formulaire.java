@@ -27,6 +27,11 @@ public class Formulaire implements Serializable {
         this.dateFin = dateFin;
         this.tabQuestions = tabQuestions;
     }
+
+    public void setQuestions(Question[] questions){
+        this.tabQuestions = questions;
+
+    }
     
     //Getters
     public int getNbQuestions() {return (this.nbQuestions);}
@@ -177,14 +182,68 @@ public class Formulaire implements Serializable {
             }
         }
         System.out.println("Voulez-vous ajouter une question ?");
-        String ch = sc.nextLine();
+        String choix = sc.nextLine();
+        if (choix.equals("o")){
+            ajouterQuestion(formModif);
+        }
         
         System.out.println("Vous avez modifié le formulaire avec succès !"); 
         File objt_serialize = new File(nomFormulaire+".ser");
         objt_serialize.delete(); // on supprime le fichier dans lequel l'objet avait été serializé 
         EnregistrementFormulaire.enregistrerF(formModif);
     }
-    
+
+    //Preconditions : formModif est un formulaire
+    //PostCondition : Ajoute une question
+
+    public static void ajouterQuestion(Formulaire form){
+        Question question;
+        Scanner sc = new Scanner(System.in);
+        String intitule;
+        String typeretour;
+        String intituleCours;
+        System.out.println("Veuiller saisir l'intitulé de la nouvelle question");
+        intitule = sc.nextLine();
+        System.out.println("Veuillez résumer cette question en un mot pour les statistiques");
+        intituleCours = sc.nextLine();
+        System.out.println("Veuiller enter le type de la question : o (Ouverte), f(Fermée) ou n(Numérique)");
+        typeretour = sc.nextLine();
+        while(!typeretour.equals("o") && !typeretour.equals("f") && !typeretour.equals("n")){ //tant que la réponse n'est pas o, f ou n
+            System.out.print("                 Veuillez rentrer o, f ou n: ");
+            typeretour = sc.nextLine();
+            System.out.println("");
+        }
+        if(typeretour.equals("f")){ //si c'est une question fermée il y a plusieurs réponses prédéfinies -> Pour le moment ça fonctionne pas des masses
+            System.out.print("                  Combien y a-t-il de réponses possibles? ");
+            int nbRep = sc.nextInt();
+            String[] rePossible = new String[nbRep]; //tableau de string
+            if (nbRep > 0) {
+                sc.nextLine(); //On vide la ligne avant d'en lire une autre
+                for (int j=0; j<nbRep; j++) { //On boucle pour obtenir toutes les réponses fermées
+                    System.out.print("                  -Entrez une réponse possible: ");
+                    rePossible[j] = sc.nextLine();
+                }
+                question = new Question(intitule,intituleCours,typeretour,rePossible);
+            }
+        }
+        else{
+            question = new Question(intitule, intituleCours, typeretour);
+        }
+
+        Question[] questions = form.getTabQuestions();
+        int l = questions.length;
+        Question[] nvquestions = new Question[l+1];
+        Question q;
+        for (int i; i<l; i++){
+            q = questions[i];
+            nvquestions[i] = q;
+        }
+
+
+
+
+    }
+
     //Pre :  aucune
     //Post : permet la suppression d'un formulaire une fois choisi
     public static void supprimerFormulaire() {
