@@ -225,6 +225,9 @@ public class Formulaire implements Serializable {
                 }
                 question = new Question(intitule,intituleCours,typeretour,rePossible);
             }
+            else{
+                question = new Question(intitule,intituleCours,typeretour);
+            }
         }
         else{
             question = new Question(intitule, intituleCours, typeretour);
@@ -234,11 +237,12 @@ public class Formulaire implements Serializable {
         int l = questions.length;
         Question[] nvquestions = new Question[l+1];
         Question q;
-        for (int i; i<l; i++){
-            q = questions[i];
-            nvquestions[i] = q;
+        for (int iterateur = 0; iterateur<l; iterateur++){
+            q = questions[iterateur];
+            nvquestions[iterateur] = q;
         }
         nvquestions[l] = question;
+        form.setQuestions(nvquestions);
     }
 
     //Pre :  aucune
