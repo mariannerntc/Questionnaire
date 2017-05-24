@@ -41,7 +41,7 @@ public static void main( String args[] )
  */
 public PageAdmin() 
 {
-   super( "LES FORMUS DU TURFU" );
+   super( "GESTION DE QUESTIONNAIRE" );
 
    pnPresentation = new JPanel();
    GridBagLayout gbPresentation = new GridBagLayout();

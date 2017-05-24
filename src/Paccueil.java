@@ -39,7 +39,7 @@ public class Paccueil extends JFrame
     */
    public Paccueil()
    {
-      super( "LES FORMUS DU TURFU" );
+      super( "GESTION DE QUESTIONNAIRE" );
 
       pnPresentation = new JPanel();
       rbgPresentation = new ButtonGroup();
