@@ -56,8 +56,9 @@ public PageClient()
    gbPresentation.setConstraints( lbPartieC, gbcPresentation );
    pnPresentation.add( lbPartieC );
 
-   String []dataListForm = { "Chocolate", "Ice Cream", "Apple Pie" };
-   lsListForm = new JList( dataListForm );
+   //String []dataListForm = { "Chocolate", "Ice Cream", "Apple Pie" };
+   lsListForm = LectureQuestionnaires.listeFormulaires();
+
    gbcPresentation.gridx = 4;
    gbcPresentation.gridy = 5;
    gbcPresentation.gridwidth = 12;
