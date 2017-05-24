@@ -1,4 +1,5 @@
 
+import javax.swing.*;
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -57,6 +58,7 @@ public class Formulaire implements Serializable {
         	System.out.println("Veuillez indiquer une date postérieur à la date de début.");
         	dateFin = verifieConvertisDate(sc.nextLine(), sc);
         }
+
 
         Question[] tabQuestions = new Question[nbQuestions]; //tabQuestions est un tableau correspondant à l'ensemble des Questions
 

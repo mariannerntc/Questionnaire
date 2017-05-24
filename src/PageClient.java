@@ -1,6 +1,8 @@
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class PageClient extends JFrame 
 {
@@ -58,6 +60,17 @@ public PageClient()
 
    //String []dataListForm = { "Chocolate", "Ice Cream", "Apple Pie" };
    lsListForm = LectureQuestionnaires.listeFormulaires();
+   lsListForm.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseClicked(MouseEvent mouseEvent) {
+         super.mouseClicked(mouseEvent);
+
+         JList list = (JList)mouseEvent.getSource();
+         String a = list.getSelectedValue().toString();
+
+         System.out.println("string a : " +a);
+      }
+   });
 
    gbcPresentation.gridx = 4;
    gbcPresentation.gridy = 5;
