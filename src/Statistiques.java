@@ -23,6 +23,7 @@ public class Statistiques {
             x = r.eval("JavaGD()");// Permettent de fermer le pop-up des stats
             //x = r.eval("data<-read.csv(file='/home/eisti/testt.csv', head=TRUE, sep=',')");
             x = r.eval("data <- read.table('" + nomFormulaireChoisi + ".csv', header=TRUE, sep=';', na.strings='/', dec='.', strip.white=TRUE)");
+
             //L'utilisateur choisi les stats qu'il veux voir
                 //Afficher les réponse
                     //Tu affiche le .csv
@@ -30,7 +31,7 @@ public class Statistiques {
                 //Bivarié
                 //Multivarié
             x = r.eval("summary(data)");
-            x = r.eval("plot(data)");
+            //x = r.eval("plot(data)");
             //x = r.eval("library(FactoMineR)");
             //x = r.eval("res.pca = PCA(data, scale.unit=TRUE, ncp=3, graph=T)");
             System.out.println(x);
