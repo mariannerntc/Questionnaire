@@ -8,6 +8,8 @@
 import java.io.*;
 import java.time.LocalDate;
 import java.util.Scanner;
+import org.rosuda.JRI.REXP;
+import org.rosuda.JRI.Rengine;
 
 
 //main() - menu() - menuAdmin() - menuClient() - afficherFormulaires()
@@ -166,21 +168,46 @@ public class Menu {
     
     
     public static void stats(){
+    
     	String nomFormulaireChoisi = Formulaire.afficherFormulaires();
     	System.out.println("Le formulaire choisi est: "+nomFormulaireChoisi);
+
+    	String newargs[] = {"--no-save"};
+    	Rengine r = new Rengine(newargs, false, null);
     	
     	File f = new File(nomFormulaireChoisi+".csv");
     	//methode pour tester l'existence
     	if ( f.exists() ) {
     		System.out.println("Le fichier existe bien!");
+    	   	REXP x; //REXP transforme les objets R en objet java
+        	x = r.eval("library(JavaGD)");
+        	x = r.eval("JavaGD()");
+        	//x = r.eval("data<-read.csv(file='/home/eisti/testt.csv', head=TRUE, sep=',')");
+        	x = r.eval("data <- read.table('"+nomFormulaireChoisi+".csv', header=TRUE, sep=';', na.strings='/', dec='.', strip.white=TRUE)");
+        	x = r.eval("summary(data)");
+        	x = r.eval("plot(data)");
+        	//x = r.eval("library(FactoMineR)");
+        	//x = r.eval("res.pca = PCA(data, scale.unit=TRUE, ncp=3, graph=T)");
+        	System.out.println(x);
     	} else {
     		System.out.println("Personne n'a répondu au questionnaire!");
-    	} //lilol
+    		Formulaire.afficherFormulaires();
+    		
+    		
+    	} 
     	
+ 
     	
+
     	
-    	//TODO recuperer une classe Statistics
-    	//Afficher les statistiques du choix grâce à R
+
+    	
+      	
+    	
+    	//Faire des demandes ? un à un ou tout en meme temps?
+    	//Demander s'il veut à nouveau d'autres stats? 
+    	//s'il veut plus:
+    	//menu();
     }
 
 
