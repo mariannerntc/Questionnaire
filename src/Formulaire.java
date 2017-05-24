@@ -271,7 +271,7 @@ public class Formulaire implements Serializable {
                     fw.write(line + "\n");
                 }
                 line = br.readLine();
-            }
+            } 
             fw.close();
             br.close();
      
@@ -281,9 +281,13 @@ public class Formulaire implements Serializable {
             e.renameTo(new File("ListeFormulaires.txt")); //on remet l'ancien nom à la nouvelle
             
             File objt_serialize = new File(nomFormulaire+".ser");
-            objt_serialize.delete(); // on supprime le fichier dans lequel l'objet avait été serializé 
+            if ( objt_serialize.exists() ) {
+                objt_serialize.delete(); // on supprime le fichier dans lequel l'objet avait été serializé 
+            }
             File fichierstat = new File(nomFormulaire+".csv");
-            fichierstat.delete();
+            if ( fichierstat.exists() ) {
+                fichierstat.delete(); //on supprime le fichier dans lequel il y a les données pour les stats
+            }
             System.out.println("Contenu de la liste des formulaires bien mise à jour.");
 
         }
