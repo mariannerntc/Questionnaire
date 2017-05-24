@@ -250,7 +250,13 @@ public class Formulaire implements Serializable {
     public static void supprimerFormulaire() {
         System.out.println("Vous souhaitez supprimer un formulaire. Veuillez choisir le numéro correspondant.");
         String nomFormulaireChoisi = afficherFormulaires();
-
+        supprimerFormulaireBis(nomFormulaireChoisi);
+    }
+    
+    //Pre :  nomFormulaire est le nom d'un formulaire
+    //Post : permet la suppression d'un formulaire
+    public static void supprimerFormulaireBis(String nomFormulaire) {
+    	
         String line = null;
 
         try {
@@ -261,7 +267,7 @@ public class Formulaire implements Serializable {
 
             line = br.readLine();
             while(line != null) { //on recopie la liste des formulaires
-                if (!(line.equals(nomFormulaireChoisi))) { //sauf si la ligne est le formulaire à supprimer
+                if (!(line.equals(nomFormulaire))) { //sauf si la ligne est le formulaire à supprimer
                     fw.write(line + "\n");
                 }
                 line = br.readLine();
@@ -274,18 +280,18 @@ public class Formulaire implements Serializable {
             File e = new File("ListeTemp.txt");
             e.renameTo(new File("ListeFormulaires.txt")); //on remet l'ancien nom à la nouvelle
             
-            File objt_serialize = new File(nomFormulaireChoisi+".ser");
+            File objt_serialize = new File(nomFormulaire+".ser");
             objt_serialize.delete(); // on supprime le fichier dans lequel l'objet avait été serializé 
-            File fichierstat = new File(nomFormulaireChoisi+".csv");
+            File fichierstat = new File(nomFormulaire+".csv");
             fichierstat.delete();
             System.out.println("Contenu de la liste des formulaires bien mise à jour.");
 
         }
         catch(FileNotFoundException ex) {
-            System.out.println("Impossible d'ouvrir le fichier ListeFormulaires.txt");
+            System.out.println("Impossible d'ouvrir le fichier ListeFormulaires.txt ou nomFormulaire.ser");
         }
         catch(IOException ex) {
-            System.out.println("Impossible de lire le fichier ListeFormulaires.txt");
+            System.out.println("Impossible de lire le fichier ListeFormulaires.txt ou nomFormulaire.ser");
         }
     }
     
