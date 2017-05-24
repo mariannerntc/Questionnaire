@@ -1,5 +1,4 @@
 import java.io.Serializable;
-import java.util.Iterator;
 
 public class Question implements Serializable {
 
