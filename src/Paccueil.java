@@ -1,6 +1,7 @@
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 
 public class Paccueil extends JFrame
 {
@@ -9,8 +10,8 @@ public class Paccueil extends JFrame
    JPanel pnPresentation;
    ButtonGroup rbgPresentation;
    JTextArea tfBienvenue;
-   JToggleButton tbtBoutonForm;
-   JToggleButton tbtBoutonAdmin;
+   JButton tbtBoutonForm;
+   JButton tbtBoutonAdmin;
    JTextArea taArea0;
    /**
     */
@@ -59,8 +60,9 @@ public class Paccueil extends JFrame
       gbPresentation.setConstraints( tfBienvenue, gbcPresentation );
       pnPresentation.add( tfBienvenue );
 
-      tbtBoutonForm = new JToggleButton( "Répondre à un formulaire"  );
-      tbtBoutonForm.setSelected( true );
+      tbtBoutonForm = new JButton( "Répondre à un formulaire"  );
+      tbtBoutonForm.setActionCommand("form");
+
       rbgPresentation.add( tbtBoutonForm );
       gbcPresentation.gridx = 2;
       gbcPresentation.gridy = 15;
@@ -73,8 +75,9 @@ public class Paccueil extends JFrame
       gbPresentation.setConstraints( tbtBoutonForm, gbcPresentation );
       pnPresentation.add( tbtBoutonForm );
 
-      tbtBoutonAdmin = new JToggleButton( "Accéder à la partie administrateur"  );
-      tbtBoutonAdmin.setSelected( true );
+      tbtBoutonAdmin = new JButton( "Accéder à la partie administrateur"  );
+      tbtBoutonAdmin.setActionCommand("admin");
+
       rbgPresentation.add( tbtBoutonAdmin );
       gbcPresentation.gridx = 11;
       gbcPresentation.gridy = 15;
@@ -112,5 +115,10 @@ public class Paccueil extends JFrame
       setContentPane( pnPresentation );
       pack();
       setVisible( true );
+
+
+      Controller controller = new Controller();
+      tbtBoutonForm.addActionListener( controller);
+      tbtBoutonAdmin.addActionListener(controller);
    }
 }

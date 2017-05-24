@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,7 +37,7 @@ public class LectureQuestionnaires implements Serializable{
     }
 
     
-    public static ArrayList listeFormulaires(){
+    public static JList listeFormulaires(){
           
         //listeDesFormulaires est une liste contenant tous les formulaires déjà créés et inscrits dans le fichier ListeFormulaire.txt
         ArrayList listeDesFormulaires = new ArrayList();
@@ -52,10 +53,10 @@ public class LectureQuestionnaires implements Serializable{
             }
             br.close();
         }catch (Exception e){System.out.println(e.toString());}
-               
         //lectureListe(listeDesFormulaires);
-       
-        return (listeDesFormulaires); //null si la clé 'choix' n'existe pas
+
+        JList listf = new JList(listeDesFormulaires.toArray());
+        return (listf); //null si la clé 'choix' n'existe pas
     }
     
     public static void lectureListe(ArrayList l){
