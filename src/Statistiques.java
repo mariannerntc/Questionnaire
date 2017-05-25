@@ -54,7 +54,27 @@ public class Statistiques {
                     break;
                 case 2:
                     //Affiche toutes les statistiques univariées
-                	Statistiques2.hist(questionnaire);
+                    Scanner sc3  = new Scanner(System.in);
+                    System.out.println("Quel type de graphique souhaitez vous ?");
+                    System.out.println("    1- Histogramme");
+                    System.out.println("    2- Boxplot");
+                    
+                    int choix3 = sc3.nextInt();
+                    while(!((choix3 <2)&(choix3>0))){
+                        Menu.verifieChoix(1,2,choix3,sc3);
+                    }
+
+                    switch (choix3){
+                        case 1:
+                            //Affiche un histogramme
+                        	Statistiques2.hist(questionnaire);
+                            break;
+                        case 2:
+                            //Affiche toutes les statistiques univariées
+                        	Statistiques2.boxplot(questionnaire);
+                            break;
+                    }
+                	
                     break;
                 case 3:
                     //etudie les variables deux à deux
