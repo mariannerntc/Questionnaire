@@ -12,8 +12,10 @@ public class Statistiques2 {
 
 
 
-		Rengine r = new Rengine(new String[]{"--no-save"}, false, null);
-
+		//Rengine r = new Rengine(new String[]{"--no-save"}, false, null);
+        Rengine r = Rengine.getMainEngine();
+        if(r == null)
+            r = new Rengine(new String[] {"--vanilla"}, false, null);
 
     	r.eval("library(JavaGD)"); // on lance la librairie JavaGD
     	r.eval("library(FactoMineR)"); //on "lance" la librairie factominer

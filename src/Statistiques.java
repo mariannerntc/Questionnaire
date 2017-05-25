@@ -19,9 +19,12 @@ public class Statistiques {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        String newargs[] = {"--no-save"};
-        Rengine r = new Rengine(newargs, false, null);//Interface entre R et Java
-
+        //String newargs[] = {"--no-save"};
+        //Rengine r = new Rengine(newargs, false, null);//Interface entre R et Java
+        Rengine r = Rengine.getMainEngine();
+        if(r == null)
+            r = new Rengine(new String[] {"--vanilla"}, false, null);
+        
         File f = new File(nomFormulaireChoisi + ".csv");//On ouvre le fichier csv du questionnaire choisi
         //methode pour tester l'existence
         if (f.exists()) {
