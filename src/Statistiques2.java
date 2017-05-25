@@ -5,33 +5,29 @@ import java.io.File;
 
 
 public class Statistiques2 {
-	public static void stats(){
+	public static void ACP(){
 	    
-    	//String nomFormulaireChoisi = Formulaire.afficherFormulaires();
-    	//System.out.println("Le formulaire choisi est: "+nomFormulaireChoisi);
+    	String nomFormulaireChoisi = Formulaire.afficherFormulaires();
+    	System.out.println("Le formulaire choisi est: "+nomFormulaireChoisi);
 		
 		
 
     	
     	Rengine r = new Rengine(new String[]{"--no-save"}, false, null);
     	
-    	System.out.println("test");
+    	
 
     	r.eval("library(JavaGD)"); // on lance la librairie JavaGD
     	r.eval("library(FactoMineR)"); //on "lance" la librairie factominer
     	
  
-    	r.eval("Dataset <- read.table('/home/eisti/Documents/Questionnaire/Questionnaire/q1.csv', header=TRUE, sep=',', na.strings='NA', dec='.', strip.white=TRUE)");
+    	r.eval("Dataset <- read.table('" + nomFormulaireChoisi + ".csv', header=TRUE, sep=',', na.strings='NA', dec='.', strip.white=TRUE)");
+    	System.out.println("Combien de variables souhaitez-vous ? (Quantitative uniquement)");
     	r.eval("Dataset.PCA<-Dataset[, c('bonjour', 'salut')]");
     	r.eval("res<-PCA(Dataset.PCA , scale.unit=TRUE, ncp=5, graph = FALSE)");
-    	//r.eval("JavaGD()");
-    	//r.eval("JavaGD(width=1500, height=900, ps=12)");
-    	//r.eval("plot.PCA(res, axes=c(1, 2), choix='var', new.plot=TRUE, col.var='black', col.quanti.sup='blue', label=c('var', 'quanti.sup'), lim.cos2.var=0)");
-    	//r.eval("plot(Dataset)");
     	r.eval("JavaGD()"); //A chaque fois qu'on affiche un graphique on met cette commande pour que le graphique soit dans la fenetre
     	r.eval("plot.PCA(res, axes=c(1, 2), choix='ind', habillage='none', col.ind='black', col.ind.sup='blue', col.quali='magenta', label=c('ind', 'ind.sup', 'quali')");
-    	//r.eval("JavaGD(width=800, height=700, ps=12)"); 
-    	//r.eval("plot.PCA(res, axes=c(1, 2), choix=\"ind\", habillage=\"none\", col.ind=\"black\", col.ind.sup=\"blue\", col.quali=\"magenta\", label=c(\"ind\", \"ind.sup\", \"quali\"))"); 
+    	//r.eval("JavaGD(width=800, height=700, ps=12)");     	//r.eval("plot.PCA(res, axes=c(1, 2), choix=\"ind\", habillage=\"none\", col.ind=\"black\", col.ind.sup=\"blue\", col.quali=\"magenta\", label=c(\"ind\", \"ind.sup\", \"quali\"))"); 
     	r.eval("JavaGD(name='Individuals Factor Map', width=800, height=700)"); 
     	r.eval("plot.PCA(res, axes=c(1, 2), choix=\"var\", col.var=\"black\", col.quanti.sup=\"blue\", label=c(\"var\", \"quanti.sup\"), lim.cos2.var=0)");
     	
@@ -42,30 +38,6 @@ public class Statistiques2 {
     	//A LIRE
     	
     	
-    	/*File f = new File(nomFormulaireChoisi+".csv");
-    	//methode pour tester l'existence
-    	if ( f.exists() ) {
-    		System.out.println("Le fichier existe bien!");
-    	   	// REXP x; //REXP transforme les objets R en objet java
-    	   	
-        	r.eval("library(JavaGD)");
-        	r.eval("JavaGD()");
-        	//x = r.eval("data<-read.csv(file='/home/eisti/testt.csv', head=TRUE, sep=',')");
-        	r.eval("data <- read.table('testquestionnaire.csv', header=TRUE, sep=',', na.strings='/', dec='.', strip.white=TRUE)");
-        	//x = r.eval("summary(data)");
-        	//r.eval("plot(data)");
-        	r.eval("data.PCA<-data[, c('bonjour','jesepo')]");
-        	r.eval("res<-PCA(data.PCA,scale.unit=TRUE,ncp=5,graph=FALSE)");
-        	r.eval("plot.PCA(res,axes=c(1,2),choix='ind',habillage='none',col.ind='black', col.ind.sup='blue', col.quali='magenta', label=c('ind', 'ind.sup', 'quali'))");
-        	//x = r.eval("library(FactoMineR)");
-        	//x = r.eval("res.pca = PCA(data, scale.unit=TRUE, ncp=3, graph=T)");
-        	
-    	} else {
-    		System.out.println("Personne n'a répondu au questionnaire!");
-    		Formulaire.afficherFormulaires();
-    		
-    		
-    	} */
 }
 
 }
