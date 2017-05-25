@@ -1,3 +1,7 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
 /**
  * Created by Tiphaine Dumur on 26/04/17.
  * Cette classe va contenir toutes les fonctions auxiliaires de verification
@@ -24,5 +28,21 @@ public class Auxiliaires {
             }
         }
         return test;
+    }
+
+    public List<String> choixQuestion(Formulaire questionnaire){
+        List<String> qChoisies = new ArrayList<>();
+        Scanner sc = new Scanner(System.in);
+        String choix;
+        for (Question question : questionnaire.getTabQuestions()){
+            System.out.println("Souhaitez vous inclure la question ' " + question.getIntitule() + " '(o ou n");
+            choix = sc.nextLine();
+            if(choix.equals("o")){
+                qChoisies.add(question.getIntituleCourt());
+            }
+        }
+
+        return(qChoisies);
+
     }
 }
