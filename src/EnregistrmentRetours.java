@@ -36,13 +36,12 @@ public class EnregistrmentRetours {
     		FileWriter fw = null;
             try {
                 fw = new FileWriter(nomCsv,true);
-                fw.write(ligneQuestions + "\n" +ligneReponse + "\n");
+                fw.write("id," + ligneQuestions + "\n" +ligneReponse + "\n");
                 fw.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
     	}
-
     }
 
     private static String saisieReponse(Formulaire questionnaire){
@@ -54,7 +53,9 @@ public class EnregistrmentRetours {
 
         String retours;
 
-        String ligneReponse = new String();
+        String ligneReponse = new String();//La ligne qui va contenir les retours
+
+        int id = questionnaire.getId();
 
         for(Question question : questions){
             System.out.print(question+" ");
@@ -82,17 +83,17 @@ public class EnregistrmentRetours {
                 } while (!(Auxiliaires.estUnNombre(retours)));
             }
 
-            ligneReponse = ligneReponse + retours + ";";
+            ligneReponse = ligneReponse + retours + ",";
           
         }
-        return(ligneReponse);
+        return(id + "," + ligneReponse);
     }
     
     public static String intituleQuestions(Formulaire questionnaire){
     	Question[] questions = questionnaire.getTabQuestions(); 
     	String chaineQuestions = new String();
     	for(Question q : questions){
-    		chaineQuestions = chaineQuestions + q.getIntituleCourt() + ";";
+    		chaineQuestions = chaineQuestions + q.getIntituleCourt() + ",";
     	}
     	
     	return(chaineQuestions);
@@ -107,5 +108,6 @@ public class EnregistrmentRetours {
         ajout(nomCsv, ligneQuestions, ligneRetours);
 
         System.out.println("Merci pour votre contribution! ");
+        questionnaire.setId(questionnaire.getId() + 1);
     }
 }

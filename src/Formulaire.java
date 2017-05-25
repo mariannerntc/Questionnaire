@@ -31,17 +31,24 @@ public class Formulaire implements Serializable {
         this.id = 1;
     }
 
+
+    //Setter
     public void setQuestions(Question[] questions){
         this.tabQuestions = questions;
 
     }
-    
+
+    public void setId(int ide){
+        this.id = ide;
+    }
+
     //Getters
     public int getNbQuestions() {return (this.nbQuestions);}
     public LocalDate getDateDebut() {return (this.dateDebut);}
     public LocalDate getDateFin() {return (this.dateFin);}
     public String getNomFormulaire() {return  (this.nomFormulaire);}
     public Question[] getTabQuestions() {return this.tabQuestions;}
+    public int getId() {return id;}
     
     //Postcondition: crée un nouvel objet de type Formulaire suite à quelques questions et l'enregistre
     public static void creerFormulaire() { 
@@ -333,7 +340,5 @@ public class Formulaire implements Serializable {
         	  + "Date de fin : " +this.getDateFin());
     }
 
-    public int getId() {
-        return id;
-    }
+
 }
