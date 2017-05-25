@@ -2,6 +2,7 @@ import org.rosuda.JRI.REXP;
 import org.rosuda.JRI.Rengine;
 
 import java.io.File;
+import java.util.Scanner;
 
 /**
  * Created by Tiphaine Dumur on 24/05/17.
@@ -23,7 +24,33 @@ public class Statistiques {
             x = r.eval("JavaGD()");// Permettent de fermer le pop-up des stats
             //x = r.eval("data<-read.csv(file='/home/eisti/testt.csv', head=TRUE, sep=',')");
             x = r.eval("data <- read.table('" + nomFormulaireChoisi + ".csv', header=TRUE, sep=';', na.strings='/', dec='.', strip.white=TRUE)");
+            int choix;
+            Scanner sc  = new Scanner(System.in);
+            System.out.println("Veuillez choisir le type de statistiques que vous désirez obtenir");
+            System.out.println("    1- Afficher les retours");
+            System.out.println("    2- Statistiques Univariées");
+            System.out.println("    3- Statistiques bivariées");
+            System.out.println("    4- Statistiques multivariées");
+            System.out.println("    5- Retour");
+            choix = sc.nextInt();
+            while(!((choix <6)&(choix>0))){
+                Menu.verifieChoix(1,5,choix,sc);
+            }
 
+            switch (choix){
+                case 1:
+                    //Affiche le tableau des retours
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    break;
+                default:
+                    Menu.menuAdmin();
+                    break;
+            }
             //L'utilisateur choisi les stats qu'il veux voir
                 //Afficher les réponse
                     //Tu affiche le .csv
