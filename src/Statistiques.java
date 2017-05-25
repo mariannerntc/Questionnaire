@@ -26,11 +26,6 @@ public class Statistiques {
         //methode pour tester l'existence
         if (f.exists()) {
             System.out.println("Le fichier existe bien!");
-            REXP x; //REXP transforme les objets R en objet java
-            //x = r.eval("library(JavaGD)");
-            //x = r.eval("JavaGD()");// Permettent de fermer le pop-up des stats
-            //x = r.eval("data<-read.csv(file='/home/eisti/testt.csv', head=TRUE, sep=',')");
-            x = r.eval("data <- read.table('" + nomFormulaireChoisi + ".csv', header=TRUE, sep=';', na.strings='/', dec='.', strip.white=TRUE)");
             int choix;
             List<String> variablesAEtudier;
             Scanner sc  = new Scanner(System.in);
