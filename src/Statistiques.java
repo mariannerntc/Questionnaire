@@ -54,14 +54,13 @@ public class Statistiques {
                     break;
                 case 2:
                     //Affiche toutes les statistiques univariées
-                    Scanner sc3  = new Scanner(System.in);
                     System.out.println("Quel type de graphique souhaitez vous ?");
                     System.out.println("    1- Histogramme");
                     System.out.println("    2- Boxplot");
                     
-                    int choix3 = sc3.nextInt();
-                    while(!((choix3 <2)&(choix3>0))){
-                        Menu.verifieChoix(1,2,choix3,sc3);
+                    int choix3 = sc.nextInt();
+                    while(!((choix3 <3)&(choix3>0))){
+                        Menu.verifieChoix(1,2,choix3,sc);
                     }
 
                     switch (choix3){
