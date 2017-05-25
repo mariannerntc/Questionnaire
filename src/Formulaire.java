@@ -18,6 +18,7 @@ public class Formulaire implements Serializable {
     private LocalDate dateDebut;
     private LocalDate dateFin;
     private Question[] tabQuestions; //un tableau contenant l'ensemble des Questions du Formulaire
+    private int id;//Identifiant associé aux retours
     private static final long serialVersionUID = 6529685098267757690L;
 
     //Constructeur
@@ -27,6 +28,7 @@ public class Formulaire implements Serializable {
         this.dateDebut = dateDebut;
         this.dateFin = dateFin;
         this.tabQuestions = tabQuestions;
+        this.id = 1;
     }
 
     public void setQuestions(Question[] questions){
