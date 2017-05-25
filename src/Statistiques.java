@@ -27,11 +27,12 @@ public class Statistiques {
         if (f.exists()) {
             System.out.println("Le fichier existe bien!");
             REXP x; //REXP transforme les objets R en objet java
-            x = r.eval("library(JavaGD)");
-            x = r.eval("JavaGD()");// Permettent de fermer le pop-up des stats
+            //x = r.eval("library(JavaGD)");
+            //x = r.eval("JavaGD()");// Permettent de fermer le pop-up des stats
             //x = r.eval("data<-read.csv(file='/home/eisti/testt.csv', head=TRUE, sep=',')");
             x = r.eval("data <- read.table('" + nomFormulaireChoisi + ".csv', header=TRUE, sep=';', na.strings='/', dec='.', strip.white=TRUE)");
             int choix;
+            List<String> variablesAEtudier;
             Scanner sc  = new Scanner(System.in);
             System.out.println("Veuillez choisir le type de statistiques que vous désirez obtenir");
             System.out.println("    1- Afficher les retours");
@@ -47,6 +48,7 @@ public class Statistiques {
             switch (choix){
                 case 1:
                     //Affiche le tableau des retours
+                    LectureQuestionnaires.afficherCSV(nomFormulaireChoisi);
                     break;
                 case 2:
                     //Affiche toutes les statistiques univariées
@@ -55,7 +57,6 @@ public class Statistiques {
                     //etudie les variables deux à deux
                     break;
                 case 4:
-                    List<String> variablesAEtudier;
                     variablesAEtudier = Auxiliaires.choixQuestion(questionnaire);
                     //effectue l'ACP
                     break;
@@ -70,11 +71,11 @@ public class Statistiques {
                 //Univarié
                 //Bivarié
                 //Multivarié
-            x = r.eval("summary(data)");
+            //x = r.eval("summary(data)");
             //x = r.eval("plot(data)");
             //x = r.eval("library(FactoMineR)");
             //x = r.eval("res.pca = PCA(data, scale.unit=TRUE, ncp=3, graph=T)");
-            System.out.println(x);
+            //System.out.println(x);
         } else {
             System.out.println("Personne n'a répondu au questionnaire!");
             Formulaire.afficherFormulaires();

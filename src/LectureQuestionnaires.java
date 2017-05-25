@@ -65,4 +65,18 @@ public class LectureQuestionnaires implements Serializable{
     		System.out.println("\t" + i + " = " + l.get(i));
         }
     }
+
+    public static void afficherCSV(String nomFichier){
+        try{
+            InputStream ips = new FileInputStream(nomFichier + ".csv");
+            InputStreamReader ipsr = new InputStreamReader(ips);
+            BufferedReader br=new BufferedReader(ipsr);
+            String ligne;
+            while ((ligne=br.readLine())!=null){ //On lit les lignes une par une
+                System.out.println(ligne); //Pour chaque ligne on affiche le nom du formulaire inscrit
+
+            }
+            br.close();
+        }catch (Exception e){System.out.println(e.toString());}
+    }
 }

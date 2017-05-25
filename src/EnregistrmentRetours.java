@@ -86,6 +86,7 @@ public class EnregistrmentRetours {
             ligneReponse = ligneReponse + retours + ",";
           
         }
+        ligneReponse.substring(0,ligneReponse.length()-1);
         return(id + "," + ligneReponse);
     }
     
@@ -95,6 +96,7 @@ public class EnregistrmentRetours {
     	for(Question q : questions){
     		chaineQuestions = chaineQuestions + q.getIntituleCourt() + ",";
     	}
+        chaineQuestions.substring(0,chaineQuestions.length()-1);//Permet de retirer la dernière virgule
     	
     	return(chaineQuestions);
     }

@@ -120,7 +120,7 @@ public class Formulaire implements Serializable {
         //Menu.menuAdmin(); //Retour au menu admin
     }
 
-    //Precondition: aucune
+    //Precondition: le fichier ListeFormulaire contient la liste des formulaires existants
     //Postcondition: affiche tous les formulaires déjà créés (en lisant le fichier ListeFormulaire.txt)
     //				 et renvoie une chaine correspondante au choix de l'utilisateur (le nom du formulaire)
     public static String afficherFormulaires(){
