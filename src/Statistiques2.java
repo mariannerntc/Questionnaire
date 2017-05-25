@@ -3,6 +3,10 @@ import org.rosuda.JRI.Rengine;
 
 import java.io.File;
 import java.util.List;
+import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 
 
 public class Statistiques2 {
@@ -52,9 +56,10 @@ public class Statistiques2 {
         if(r == null)
             r = new Rengine(new String[] {"--vanilla"}, false, null);
         
+        String nomFormulaireChoisi = questionnaire.getNomFormulaire();
          
     	r.eval("library(FactoMineR)"); //on "lance" la librairie factominer
-    	r.eval("Dataset <- read.table('/home/eisti/Pictures/Questionnaire/Questionnaire/test.csv', header=TRUE, sep=',', na.strings='NA', dec='.', strip.white=TRUE)");
+    	r.eval("Dataset <- read.table('" + nomFormulaireChoisi + ".csv', header=TRUE, sep=',', na.strings='NA', dec='.', strip.white=TRUE)");
     	/*
     	r.eval("Dataset.PCA<-Dataset[, c('q1', 'q2')]");
     	r.eval("res<-PCA(Dataset.PCA , scale.unit=TRUE, ncp=5, graph = FALSE)");
@@ -63,8 +68,69 @@ public class Statistiques2 {
     	r.eval("JavaGD(name='Individuals Factor Map', width=800, height=700)"); 
     	r.eval("plot.PCA(res, axes=c(1, 2), choix=\"var\", col.var=\"black\", col.quanti.sup=\"blue\", label=c(\"var\", \"quanti.sup\"), lim.cos2.var=0)");
 		*/
+    	System.out.println("Pour quelle variable voulez vous un histogramme ?");
+    	
+    	
+    	BufferedReader br = null;
+		FileReader fr = null;
+
+		try {
+			String FILENAME = new String(nomFormulaireChoisi+".csv");
+			fr = new FileReader(FILENAME);
+			br = new BufferedReader(fr);
+			br = new BufferedReader(new FileReader(FILENAME));
+			System.out.println(br.readLine());
+			
+
+		} catch (IOException e) {
+
+			e.printStackTrace();
+
+		} finally {
+
+			try {
+
+				if (br != null)
+					br.close();
+
+				if (fr != null)
+					fr.close();
+
+			} catch (IOException ex) {
+
+				ex.printStackTrace();
+
+			}
+
+		}
+        Scanner sc = new Scanner(System.in);
+        String choix = sc.nextLine(); 
+        //sc.close();
     	r.eval("JavaGD(width=800, height=700, ps=12)"); 
-    	r.eval("with(Dataset, hist(q2, scale='frequency', breaks='Sturges', col='darkgray'))");
+    	r.eval("with(Dataset, hist(" +choix+ ", scale='frequency', breaks='Sturges', col='darkgray'))");
+    	
+    	Scanner sc2  = new Scanner(System.in);
+        System.out.println("    1- Retour au menu principal");
+        System.out.println("    2- Retour");
+        System.out.println("    3- Quitter le programme");
+
+        int choix2 = sc.nextInt();
+        while(!((choix2 <6)&(choix2>0))){
+            Menu.verifieChoix(1,2,choix2,sc2);
+        }
+
+        switch (choix2){
+            case 1:
+                Menu.menuAdmin();
+                break;
+                
+            case 2:
+            	Statistiques.stats();
+                break;
+
+            case 3: System.out.println("Programme quitté. A bientôt! "); //Quitte le programme
+            break;
+        }
 	}}
 
 
