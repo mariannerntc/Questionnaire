@@ -54,6 +54,7 @@ public class Statistiques {
                     break;
                 case 2:
                     //Affiche toutes les statistiques univariées
+                	Statistiques2.hist(questionnaire);
                     break;
                 case 3:
                     //etudie les variables deux à deux

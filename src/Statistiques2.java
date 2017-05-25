@@ -45,7 +45,28 @@ public class Statistiques2 {
     	
     	
 }
+	
+	public static void hist(Formulaire questionnaire){
+		
+        Rengine r = Rengine.getMainEngine();
+        if(r == null)
+            r = new Rengine(new String[] {"--vanilla"}, false, null);
+        
+         
+    	r.eval("library(FactoMineR)"); //on "lance" la librairie factominer
+    	r.eval("Dataset <- read.table('/home/eisti/Pictures/Questionnaire/Questionnaire/test.csv', header=TRUE, sep=',', na.strings='NA', dec='.', strip.white=TRUE)");
+    	/*
+    	r.eval("Dataset.PCA<-Dataset[, c('q1', 'q2')]");
+    	r.eval("res<-PCA(Dataset.PCA , scale.unit=TRUE, ncp=5, graph = FALSE)");
+    	r.eval("JavaGD(width=800, height=700, ps=12)"); 
+    	r.eval("plot.PCA(res, axes=c(1, 2), choix=\"ind\", habillage=\"none\", col.ind=\"black\", col.ind.sup=\"blue\", col.quali=\"magenta\", label=c(\"ind\", \"ind.sup\", \"quali\"))"); 
+    	r.eval("JavaGD(name='Individuals Factor Map', width=800, height=700)"); 
+    	r.eval("plot.PCA(res, axes=c(1, 2), choix=\"var\", col.var=\"black\", col.quanti.sup=\"blue\", label=c(\"var\", \"quanti.sup\"), lim.cos2.var=0)");
+		*/
+    	r.eval("JavaGD(width=800, height=700, ps=12)"); 
+    	r.eval("with(Dataset, hist(q2, scale='frequency', breaks='Sturges', col='darkgray'))");
+	}}
 
-}
+
 
  

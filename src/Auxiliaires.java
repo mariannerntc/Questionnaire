@@ -35,7 +35,7 @@ public class Auxiliaires {
         Scanner sc = new Scanner(System.in);
         String choix;
         for (Question question : questionnaire.getTabQuestions()){
-            System.out.println("Souhaitez vous inclure la question ' " + question.getIntitule() + " '(o ou n");
+            System.out.println("Souhaitez vous inclure la question ' " + question.getIntitule() + " '(o ou n)");
             choix = sc.nextLine();
             if(choix.equals("o")){
                 qChoisies.add(question.getIntituleCourt());
