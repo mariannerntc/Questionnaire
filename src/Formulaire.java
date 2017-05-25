@@ -332,4 +332,8 @@ public class Formulaire implements Serializable {
         	  + "Date de debut : "+this.getDateDebut()+"\n"
         	  + "Date de fin : " +this.getDateFin());
     }
+
+    public int getId() {
+        return id;
+    }
 }
