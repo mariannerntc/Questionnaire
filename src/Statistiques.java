@@ -6,7 +6,9 @@ import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.Scanner;
 
-
+/**
+ * Created by Tiphaine Dumur on 24/05/17.
+ **/
 public class Statistiques {
     public static void stats() {
         String nomFormulaireChoisi = Formulaire.afficherFormulaires();
@@ -29,6 +31,7 @@ public class Statistiques {
             //x = r.eval("data<-read.csv(file='/home/eisti/testt.csv', head=TRUE, sep=',')");
             r.eval("data <- read.table('" + nomFormulaireChoisi + ".csv', header=TRUE, sep=';', na.strings='/', dec='.', strip.white=TRUE)");
             int choix;
+            List<String> variablesAEtudier;
             Scanner sc  = new Scanner(System.in);
             System.out.println("Veuillez choisir le type de statistiques que vous désirez obtenir");
             System.out.println("    1- Afficher les retours");
@@ -44,6 +47,7 @@ public class Statistiques {
             switch (choix){
                 case 1:
                     //Affiche le tableau des retours
+                     LectureQuestionnaires.afficherCSV(nomFormulaireChoisi);
                     break;
                 case 2:
                     //Affiche toutes les statistiques univariées
@@ -52,7 +56,6 @@ public class Statistiques {
                     //etudie les variables deux à deux
                     break;
                 case 4:
-                    List<String> variablesAEtudier;
                     variablesAEtudier = Auxiliaires.choixQuestion(questionnaire);
                     
                     //effectue l'ACP
