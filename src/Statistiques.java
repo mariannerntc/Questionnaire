@@ -56,7 +56,7 @@ public class Statistiques {
                     //etudie les variables deux à deux
                     break;
                 case 4:
-                    variablesAEtudier = Auxiliaires.choixQuestion(questionnaire);
+                    //variablesAEtudier = Auxiliaires.choixQuestion(questionnaire);
                     Statistiques2.acp(questionnaire);
                     //effectue l'ACP
                     break;
