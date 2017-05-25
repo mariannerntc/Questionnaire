@@ -5,7 +5,7 @@ import java.io.File;
 
 
 public class Statistiques2 {
-	public static void ACP(){
+	public static void acp(){
 	    
     	String nomFormulaireChoisi = Formulaire.afficherFormulaires();
     	System.out.println("Le formulaire choisi est: "+nomFormulaireChoisi);
