@@ -42,12 +42,16 @@ public class Statistiques {
                     //Affiche le tableau des retours
                     break;
                 case 2:
+                    //Affiche toutes les statistiques univariées
                     break;
                 case 3:
+                    //etudie les variables deux à deux
                     break;
                 case 4:
+                    //effectue l'ACP
                     break;
                 default:
+                    //Revient au menu
                     Menu.menuAdmin();
                     break;
             }
