@@ -57,7 +57,7 @@ public class Statistiques {
                     break;
                 case 4:
                     variablesAEtudier = Auxiliaires.choixQuestion(questionnaire);
-                    
+                    Statistiques2.acp(questionnaire);
                     //effectue l'ACP
                     break;
                 default:
