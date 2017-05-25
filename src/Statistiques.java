@@ -2,6 +2,8 @@ import org.rosuda.JRI.REXP;
 import org.rosuda.JRI.Rengine;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -11,7 +13,12 @@ public class Statistiques {
     public static void stats() {
         String nomFormulaireChoisi = Formulaire.afficherFormulaires();
         System.out.println("Le formulaire choisi est: " + nomFormulaireChoisi);
-
+        Formulaire questionnaire = null;
+        try {
+            questionnaire = LectureQuestionnaires.lectureFormulaire(nomFormulaireChoisi);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
         String newargs[] = {"--no-save"};
         Rengine r = new Rengine(newargs, false, null);//Interface entre R et Java
 
@@ -48,6 +55,8 @@ public class Statistiques {
                     //etudie les variables deux à deux
                     break;
                 case 4:
+                    List<String> variablesAEtudier;
+                    variablesAEtudier = Auxiliaires.choixQuestion(questionnaire);
                     //effectue l'ACP
                     break;
                 default:

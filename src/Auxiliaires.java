@@ -30,7 +30,7 @@ public class Auxiliaires {
         return test;
     }
 
-    public List<String> choixQuestion(Formulaire questionnaire){
+    public static List<String> choixQuestion(Formulaire questionnaire){
         List<String> qChoisies = new ArrayList<>();
         Scanner sc = new Scanner(System.in);
         String choix;
