@@ -136,56 +136,19 @@ public class Statistiques2 {
          
     	
     	r.eval("Dataset <- read.table('" + nomFormulaireChoisi + ".csv', header=TRUE, sep=',', na.strings='NA', dec='.', strip.white=TRUE)");
-    	System.out.println("Pour quelle variable voulez vous un histogramme ?");
-    	System.out.println("Veuillez choisir et écrire une des variables suivantes");
-    	
-    	
-    	BufferedReader br = null;
-		FileReader fr = null;
 
-		try {
-			String FILENAME = new String(nomFormulaireChoisi+".csv");
-			fr = new FileReader(FILENAME);
-			br = new BufferedReader(fr);
-			br = new BufferedReader(new FileReader(FILENAME));
-			System.out.println(br.readLine());
-			
-
-		} catch (IOException e) {
-
-			e.printStackTrace();
-
-		} finally {
-
-			try {
-
-				if (br != null)
-					br.close();
-
-				if (fr != null)
-					fr.close();
-
-			} catch (IOException ex) {
-
-				ex.printStackTrace();
-
-			}
-
-		}
-        Scanner sc = new Scanner(System.in);
-        String choix = sc.nextLine(); 
-        //sc.close();
     	r.eval("JavaGD(width=800, height=700, ps=12)"); 
-    	r.eval("with(Dataset, hist(" +choix+ ", scale='frequency', breaks='Sturges', col='darkgray'))");
+    	//r.eval("with(Dataset, hist(" +choix+ ", scale='frequency', breaks='Sturges', col='darkgray'))");
     	//r.eval("with(Dataset, dotplot("+choix+", bin=FALSE))");
-    	Scanner sc2  = new Scanner(System.in);
+    	r.eval("boxplot(Dataset)");
+    	Scanner sc  = new Scanner(System.in);
         System.out.println("    1- Retour au menu principal");
         System.out.println("    2- Retour");
         System.out.println("    3- Quitter le programme");
 
         int choix2 = sc.nextInt();
         while(!((choix2 <6)&(choix2>0))){
-            Menu.verifieChoix(1,2,choix2,sc2);
+            Menu.verifieChoix(1,2,choix2,sc);
         }
 
         switch (choix2){
