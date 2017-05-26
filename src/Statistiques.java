@@ -104,16 +104,7 @@ public class Statistiques {
                     Menu.menuAdmin();
                     break;
             }
-            //L'utilisateur choisi les stats qu'il veux voir
-                //Afficher les réponse
-                    //Tu affiche le .csv
-                //Univarié
-                //Bivarié
-                //Multivarié
-            //x = r.eval("summary(data)");
-            //x = r.eval("plot(data)");
-            //x = r.eval("library(FactoMineR)");
-            //x = r.eval("res.pca = PCA(data, scale.unit=TRUE, ncp=3, graph=T)");
+;
         } else {
             System.out.println("Personne n'a répondu au questionnaire!");
             Formulaire.afficherFormulaires();

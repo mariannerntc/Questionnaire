@@ -12,23 +12,22 @@ import java.io.IOException;
 public class Statistiques2 {
 	public static void acp(Formulaire questionnaire){
 	    
-    	String nomFormulaireChoisi = questionnaire.getNomFormulaire();
-    	 Rengine r = Rengine.getMainEngine();
+    	String nomFormulaireChoisi = questionnaire.getNomFormulaire(); //affiche les formulaires existants
+    	 Rengine r = Rengine.getMainEngine(); //creation interface Java/R
          if(r == null)
              r = new Rengine(new String[] {"--vanilla"}, false, null);
-    	r.eval("Dataset <- read.table('" + nomFormulaireChoisi + ".csv', header=TRUE, sep=',', na.strings='NA', dec='.', strip.white=TRUE)");
-    	r.eval("library(JavaGD)"); // on lance la librairie JavaGD
-    	r.eval("library(FactoMineR)"); //on "lance" la librairie factominer
+    	r.eval("library(JavaGD)"); // lancement de la librairie JavaGD
+    	r.eval("library(FactoMineR)"); //lancement de la librairie factominer
     	
     	r.eval("Dataset <- read.table('" + nomFormulaireChoisi + ".csv', header=TRUE, sep=',', na.strings='NA', dec='.', strip.white=TRUE)");//Recupere le fichier des retours
     	System.out.println("Veuillez selectionner les variables quantitatives que vous souhaitez étudier (Au moins 2)");
-		List<String> variables = Auxiliaires.choixQuestion(questionnaire);
-		String liste = new String();
+		List<String> variables = Auxiliaires.choixQuestion(questionnaire); 
+		String liste = new String();//Stock les variables que l'administrateur souhaite utiliser pour l'acp
 		for (String intitule  : variables){
 			liste = liste+"'"+ intitule +"', ";
 		}
 		liste = liste.substring(0,liste.length()-2);
-    	r.eval("Dataset.PCA<-Dataset[, c("+ liste+")]");
+    	r.eval("Dataset.PCA<-Dataset[, c("+ liste+")]"); //Code dans R pour faire une ACP
     	r.eval("res<-PCA(Dataset.PCA , scale.unit=TRUE, ncp=5, graph = FALSE)");
     	r.eval("JavaGD(width=800, height=800 , ps=14)"); //A chaque fois qu'on affiche un graphique on met cette commande pour que le graphique soit dans la fenetre
     	r.eval("plot.PCA(res, axes=c(1, 2), choix=\"ind\", habillage=\"none\", col.ind=\"black\", col.ind.sup=\"blue\", col.quali=\"magenta\", label=c(\"ind\", \"ind.sup\", \"quali\"))"); 
@@ -57,7 +56,7 @@ public class Statistiques2 {
 		FileReader fr = null;
 
 		try {
-			String FILENAME = new String(nomFormulaireChoisi+".csv");
+			String FILENAME = new String(nomFormulaireChoisi+".csv"); //Affichage de toutes les variables du questionnaire existant
 			fr = new FileReader(FILENAME);
 			br = new BufferedReader(fr);
 			br = new BufferedReader(new FileReader(FILENAME));
@@ -103,13 +102,8 @@ public class Statistiques2 {
             r = new Rengine(new String[] {"--vanilla"}, false, null);
         
         String nomFormulaireChoisi = questionnaire.getNomFormulaire();
-         
-    	
     	r.eval("Dataset <- read.table('" + nomFormulaireChoisi + ".csv', header=TRUE, sep=',', na.strings='NA', dec='.', strip.white=TRUE)");
-
     	r.eval("JavaGD(width=800, height=800, ps=14)"); 
-    	//r.eval("with(Dataset, hist(" +choix+ ", scale='frequency', breaks='Sturges', col='darkgray'))");
-    	//r.eval("with(Dataset, dotplot("+choix+", bin=FALSE))");
     	r.eval("boxplot(Dataset)");
     	
     	menuApresGraphique();
@@ -133,7 +127,6 @@ public class Statistiques2 {
 			listemca = listemca.substring(0,listemca.length()-2);
 		
 	   	r.eval("Dataset.MCA<-Dataset[, c("+ listemca+")]");
-		//r.eval("Dataset.MCA<-Dataset[, c('saison', 'endroit', 'marquevoiture')]");
 		r.eval("res<-MCA(Dataset.MCA, ncp=5, graph = FALSE)");
 		r.eval("JavaGD(width=800, height=800, ps=14)"); 
 		r.eval("plot.MCA(res, axes=c(1, 2), col.ind='black', col.ind.sup='blue', col.var='darkred', col.quali.sup='darkgreen', label=c('ind', 'ind.sup', 'quali.sup', 'var'))"); 
