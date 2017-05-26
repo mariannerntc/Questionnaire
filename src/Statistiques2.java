@@ -1,7 +1,4 @@
-import org.rosuda.JRI.REXP;
 import org.rosuda.JRI.Rengine;
-
-import java.io.File;
 import java.util.List;
 import java.util.Scanner;
 import java.io.BufferedReader;
@@ -21,6 +18,7 @@ public class Statistiques2 {
     	
     	r.eval("Dataset <- read.table('" + nomFormulaireChoisi + ".csv', header=TRUE, sep=',', na.strings='NA', dec='.', strip.white=TRUE)");//Recupere le fichier des retours
     	System.out.println("Veuillez selectionner les variables quantitatives que vous souhaitez étudier (Au moins 2)");
+    	System.out.println("Si vous ne savez plus de quel type sont vos variables, revenez dans le menu des statistiques et affichez les retours");
 		List<String> variables = Auxiliaires.choixQuestion(questionnaire); 
 		String liste = new String();//Stock les variables que l'administrateur souhaite utiliser pour l'acp
 		for (String intitule  : variables){
@@ -85,7 +83,9 @@ public class Statistiques2 {
 
 		}
     	System.out.println("Votre variable doit cependant etre quantitative");
-    	System.out.println("Si la fenetre qui va s'ouvrir est vide, reessayez et choisisez une variable quantitative");
+    	System.out.println("Si la fenetre qui va s'ouvrir est vide, reessayez et choisissez une variable quantitative");
+    	System.out.println("Si vous ne savez plus de quel type sont vos variables, revenez dans le menu des statistiques et affichez les retours");
+    	
         Scanner sc = new Scanner(System.in);
         String choix = sc.nextLine(); 
         //sc.close();
@@ -119,6 +119,8 @@ public class Statistiques2 {
 		r.eval("library(FactoMineR)"); //on "lance" la librairie factominer
 		r.eval("Dataset <- read.table('" + nomFormulaireChoisi + ".csv', header=TRUE, sep=',', na.strings='NA', dec='.', strip.white=TRUE)");
 	   	System.out.println("Veuillez selectionner les variables quantitatives que vous souhaitez étudier (Au moins 2)");
+	   	System.out.println("Si vous ne savez plus de quel type sont vos variables, revenez dans le menu des statistiques et affichez les retours");
+	   	
 			List<String> variables = Auxiliaires.choixQuestion(questionnaire);
 			String listemca = new String();
 			for (String intitule  : variables){
@@ -145,8 +147,8 @@ public class Statistiques2 {
         System.out.println("    3- Quitter le programme");
 
         int choix2 = sc2.nextInt();
-        while(!((choix2 <3)&(choix2>0))){
-            Menu.verifieChoix(1,2,choix2,sc2);
+        while(!((choix2 <4)&(choix2>0))){
+            Menu.verifieChoix(1,3,choix2,sc2);
         }
 
         switch (choix2){
