@@ -24,3 +24,10 @@ Il existe 2 manières de lancer le programme:
 	- Pour finir, toujours dans cette même fenetre, aller dans l'onglet Environment et Cliquer sur New: Inscrivez R_HOME dans le Name et dans Value le chemin pour y accéder (par défaut /usr/lib/R).
 
 	Vous êtes maintenant prêt à lancer le programme pour cela compiler et lancer le fichier Menu.java. 
+
+	Stats:
+	Si vous souhaitez essayer les stats sans avoir un creer vous même un formulaire, le Questionnaire "QuestionnaireTuto" est déjà créé par défaut, vous pouvez réaliser les 4 types de statistiques avec celui là.
+Pour l'acp, il faut dire non aux 2 premieres questions et oui aux 2 autres
+Pour l'afc, c'est l'inverse il faut dire oui aux 2 premieres et non aux 2 autres
+Pour l'histogramme, toutes les variables vont fonctionner mais pour voir un histogramme interessant il faut soit ecrire age soit frere.
+Pour le boxplot, il n'y a rien à faire, il suffit de la sélectionner et il s'affichera.
