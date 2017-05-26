@@ -30,11 +30,12 @@ public class Statistiques2 {
 		liste = liste.substring(0,liste.length()-2);
     	r.eval("Dataset.PCA<-Dataset[, c("+ liste+")]");
     	r.eval("res<-PCA(Dataset.PCA , scale.unit=TRUE, ncp=5, graph = FALSE)");
-    	r.eval("JavaGD(width=800, height=700)"); //A chaque fois qu'on affiche un graphique on met cette commande pour que le graphique soit dans la fenetre
+    	r.eval("JavaGD(width=800, height=800 , ps=14)"); //A chaque fois qu'on affiche un graphique on met cette commande pour que le graphique soit dans la fenetre
     	r.eval("plot.PCA(res, axes=c(1, 2), choix=\"ind\", habillage=\"none\", col.ind=\"black\", col.ind.sup=\"blue\", col.quali=\"magenta\", label=c(\"ind\", \"ind.sup\", \"quali\"))"); 
-    	r.eval("JavaGD(width=800, height=700)"); 
+    	r.eval("JavaGD(width=800, height=800, ps=14)"); 
     	r.eval("plot.PCA(res, axes=c(1, 2), choix=\"var\", col.var=\"black\", col.quanti.sup=\"blue\", label=c(\"var\", \"quanti.sup\"), lim.cos2.var=0)");
     	
+    	menuApresGraphique();
 }
 	
 	public static void hist(Formulaire questionnaire){
@@ -49,6 +50,7 @@ public class Statistiques2 {
     	r.eval("Dataset <- read.table('" + nomFormulaireChoisi + ".csv', header=TRUE, sep=',', na.strings='NA', dec='.', strip.white=TRUE)");
     	System.out.println("Pour quelle variable voulez vous un histogramme ?");
     	System.out.println("Veuillez choisir et écrire une des variables suivantes");
+
     	
     	
     	BufferedReader br = null;
@@ -83,34 +85,15 @@ public class Statistiques2 {
 			}
 
 		}
+    	System.out.println("Votre variable doit cependant etre quantitative");
+    	System.out.println("Si la fenetre qui va s'ouvrir est vide, reessayez et choisisez une variable quantitative");
         Scanner sc = new Scanner(System.in);
         String choix = sc.nextLine(); 
         //sc.close();
-    	r.eval("JavaGD(width=800, height=700, ps=12)"); 
+    	r.eval("JavaGD(width=800, height=800, ps=14)"); 
     	r.eval("with(Dataset, hist(" +choix+ ", scale='frequency', breaks='Sturges', col='darkgray'))");
-    	
-    	Scanner sc2  = new Scanner(System.in);
-        System.out.println("    1- Retour au menu principal");
-        System.out.println("    2- Retour");
-        System.out.println("    3- Quitter le programme");
-
-        int choix2 = sc.nextInt();
-        while(!((choix2 <6)&(choix2>0))){
-            Menu.verifieChoix(1,2,choix2,sc2);
-        }
-
-        switch (choix2){
-            case 1:
-                Menu.menuAdmin();
-                break;
-                
-            case 2:
-            	Statistiques.stats();
-                break;
-
-            case 3: System.out.println("Programme quitté. A bientôt! "); //Quitte le programme
-            break;
-        }
+ 
+        menuApresGraphique();
 	}
 	
 	public static void boxplot(Formulaire questionnaire){
@@ -124,32 +107,14 @@ public class Statistiques2 {
     	
     	r.eval("Dataset <- read.table('" + nomFormulaireChoisi + ".csv', header=TRUE, sep=',', na.strings='NA', dec='.', strip.white=TRUE)");
 
-    	r.eval("JavaGD(width=800, height=700, ps=12)"); 
+    	r.eval("JavaGD(width=800, height=800, ps=14)"); 
     	//r.eval("with(Dataset, hist(" +choix+ ", scale='frequency', breaks='Sturges', col='darkgray'))");
     	//r.eval("with(Dataset, dotplot("+choix+", bin=FALSE))");
     	r.eval("boxplot(Dataset)");
-    	Scanner sc  = new Scanner(System.in);
-        System.out.println("    1- Retour au menu principal");
-        System.out.println("    2- Retour");
-        System.out.println("    3- Quitter le programme");
+    	
+    	menuApresGraphique();
 
-        int choix2 = sc.nextInt();
-        while(!((choix2 <6)&(choix2>0))){
-            Menu.verifieChoix(1,2,choix2,sc);
-        }
 
-        switch (choix2){
-            case 1:
-                Menu.menuAdmin();
-                break;
-                
-            case 2:
-            	Statistiques.stats();
-                break;
-
-            case 3: System.out.println("Programme quitté. A bientôt! "); //Quitte le programme
-            break;
-        }
 		
 	}
 	public static void afc(Formulaire questionnaire){
@@ -169,14 +134,44 @@ public class Statistiques2 {
 	   	r.eval("Dataset.MCA<-Dataset[, c("+ listemca+")]");
 		//r.eval("Dataset.MCA<-Dataset[, c('bonjour1', 'bonjour2', 'bonjour3')]");
 		r.eval("res<-MCA(Dataset.MCA, ncp=5, graph = FALSE)");
-		r.eval("JavaGD(width=800, height=700, ps=12)"); 
+		r.eval("JavaGD(width=800, height=800, ps=14)"); 
 		r.eval("plot.MCA(res, axes=c(1, 2), col.ind='black', col.ind.sup='blue', col.var='darkred', col.quali.sup='darkgreen', label=c('ind', 'ind.sup', 'quali.sup', 'var'))"); 
-		r.eval("JavaGD(width=800, height=700)"); 
+		r.eval("JavaGD(width=800, height=800, ps=14)"); 
 		r.eval("plot.MCA(res, axes=c(1, 2), choix='var', col.var='darkred', col.quali.sup='darkgreen', label=c('var', 'quali.sup'))");
-
+		menuApresGraphique();
 
 		
 	}
+	
+
+	public static void menuApresGraphique(){
+    	Scanner sc2  = new Scanner(System.in);
+        System.out.println("    1- Retour au menu principal");
+        System.out.println("    2- Retour");
+        System.out.println("    3- Quitter le programme");
+
+        int choix2 = sc2.nextInt();
+        while(!((choix2 <3)&(choix2>0))){
+            Menu.verifieChoix(1,2,choix2,sc2);
+        }
+
+        switch (choix2){
+            case 1:
+                Menu.menuAdmin();
+                break;
+                
+            case 2:
+            	Statistiques.stats();
+                break;
+
+            case 3: System.out.println("Programme quitté. A bientôt! "); //Quitte le programme
+            break;
+        }
+		
+	}
+	
+
+
 }
 
 //r.eval("library(FactoMineR)"); //on "lance" la librairie factominer

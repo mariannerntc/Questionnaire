@@ -51,6 +51,7 @@ public class Statistiques {
                 case 1:
                     //Affiche le tableau des retours
                      LectureQuestionnaires.afficherCSV(nomFormulaireChoisi);
+                     Statistiques2.menuApresGraphique();
                     break;
                 case 2:
                     //Affiche toutes les statistiques univariées
