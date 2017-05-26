@@ -168,12 +168,12 @@ public class Menu {
     
     
     public static void stats(){
-    
-    	Statistiques.stats();
-    		
 
-    	} 
-    	
+    	Statistiques.stats();
+
+
+    	}
+
  
     	
 
