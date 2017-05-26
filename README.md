@@ -2,7 +2,8 @@ Il existe 2 manières de lancer le programme:
 
 
 	1-POUR LANCER LE PROGRAMME VIA LE .JAR:
-	Double cliquez sur le fichier Programme.jar.
+	Il faut se situer dans le répertoire du projet.
+	Une fois qu'on y est, on écrit : java -jar Programme.jar dans le terminal et cela lance le logiciel.
 
 
 	2-POUR LANCER LE PROGRAMME VIA UN IDE :
