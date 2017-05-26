@@ -131,8 +131,9 @@ public class Statistiques2 {
 				listemca = listemca+"'"+ intitule +"', ";
 			}
 			listemca = listemca.substring(0,listemca.length()-2);
+		
 	   	r.eval("Dataset.MCA<-Dataset[, c("+ listemca+")]");
-		//r.eval("Dataset.MCA<-Dataset[, c('bonjour1', 'bonjour2', 'bonjour3')]");
+		//r.eval("Dataset.MCA<-Dataset[, c('saison', 'endroit', 'marquevoiture')]");
 		r.eval("res<-MCA(Dataset.MCA, ncp=5, graph = FALSE)");
 		r.eval("JavaGD(width=800, height=800, ps=14)"); 
 		r.eval("plot.MCA(res, axes=c(1, 2), col.ind='black', col.ind.sup='blue', col.var='darkred', col.quali.sup='darkgreen', label=c('ind', 'ind.sup', 'quali.sup', 'var'))"); 
@@ -174,16 +175,6 @@ public class Statistiques2 {
 
 }
 
-//r.eval("library(FactoMineR)"); //on "lance" la librairie factominer
-//r.eval("Dataset <- read.table('" + nomFormulaireChoisi + ".csv', header=TRUE, sep=',', na.strings='NA', dec='.', strip.white=TRUE)");
-/*
-r.eval("Dataset.PCA<-Dataset[, c('q1', 'q2')]");
-r.eval("res<-PCA(Dataset.PCA , scale.unit=TRUE, ncp=5, graph = FALSE)");
-r.eval("JavaGD(width=800, height=700, ps=12)"); 
-r.eval("plot.PCA(res, axes=c(1, 2), choix=\"ind\", habillage=\"none\", col.ind=\"black\", col.ind.sup=\"blue\", col.quali=\"magenta\", label=c(\"ind\", \"ind.sup\", \"quali\"))"); 
-r.eval("JavaGD(name='Individuals Factor Map', width=800, height=700)"); 
-r.eval("plot.PCA(res, axes=c(1, 2), choix=\"var\", col.var=\"black\", col.quanti.sup=\"blue\", label=c(\"var\", \"quanti.sup\"), lim.cos2.var=0)");
-*/
 
 
  
