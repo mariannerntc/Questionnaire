@@ -2,7 +2,7 @@ Pour pouvoir afficher les statistiques il faut installer rJava ainsi que JAVAGD.
 Pour ce faire, il faut lancer R et écrire les commandes suivantes dans la console: 
 - install.packages("rJava")
 - install.packages("JavaGD")
-IL se peut qu'un conflit se crée et que les librairies ne s'ajoutent pas. Dans ce cas là, il faut ouvrir le terminal de linux et écrire la commande suivante : $ R CMD javareconf après s'être authentifier en administrateur (sudo). Après cela, relancez la R et écrivez de nouveau les deux install packages, cela devrait fonctionner.
+IL se peut qu'un conflit se crée et que les librairies ne s'ajoutent pas. Dans ce cas là, il faut ouvrir le terminal de linux et écrire la commande suivante : $ R CMD javareconf après s'être authentifier en administrateur (sudo). Après cela, relancez R et écrivez de nouveau les deux install packages, cela devrait fonctionner.
 
 Une fois que cela est fait, il faut ensuite configurer l'IDE:
 Avec Eclipse :
@@ -13,4 +13,4 @@ Avec Eclipse :
 - Ici, nous donnons le chemin d'accès pour JRI, il est donc à noter que le chemin pour y accéder peut varier d'un ordinateur à un autre
 - Pour finir, toujours dans cette même fenetre, aller dans l'onglet Environment et Cliquer sur New: Inscrivez R_HOME dans le Name et dans Value le chemin pour y accéder (par défaut /usr/lib/R).
 
-Vous êtes maintenant prêt à lancer le programme
+Vous êtes maintenant prêt à lancer le programme pour cela compiler et lancer le fichier Menu.java. 
