@@ -21,9 +21,9 @@ public class Menu {
         menu();
     }
 
-    
+
     //Postcondition: affiche le menu principal permettant d'accéder à la partie admin ou client
-    public static void menu(){ 
+    public static void menu(){
         //System.out.println("\033[H\033[2J"); //Si l'application est lancée sur un terminal 'clean' le terminal
         System.out.flush();
 
@@ -39,20 +39,20 @@ public class Menu {
         System.out.print("|    Que souhaitez vous faire? ");
 
         Scanner sc = new Scanner(System.in);
-        int choix = sc.nextInt(); 
+        int choix = sc.nextInt();
         verifieChoix(1, 2, choix, sc); //Vérifie si l'utilisateur a rentré 1 ou 2
 
         //Selon le choix
         if (choix==2){ menuAdmin(); } //affiche la partie admin
         else{ menuClient();} //affiche la partie client
-        
+
         System.out.println("");
     }
-    
+
 
     //Postcondition: affiche le menu de la partie administrateur et ses différents choix
     public static void menuAdmin() {
-        System.out.println("|_______________________________________________________| ");  
+        System.out.println("|_______________________________________________________| ");
         System.out.println("");
         System.out.println("                  _          _          _                 ");
         System.out.println("                >(')_____, <(')_____, >(')_____,          ");
@@ -71,38 +71,38 @@ public class Menu {
         System.out.println("           6- Quitter le programme                        ");
         System.out.println("");
         System.out.print("              Que souhaitez vous faire? ");
-        
+
         Scanner sc = new Scanner(System.in);
-        int choix = sc.nextInt();      
+        int choix = sc.nextInt();
         choix = verifieChoix(1,6,choix,sc); //Vérifie que le choix de l'utilisateur correspond à un numéro du menu
         System.out.println("");
-        
+
         switch (choix) { //Selon le choix...
             case 1: Formulaire.creerFormulaire(); //CREE un nouveau formulaire
-            		menu(); //permet de boucler
-                	break;
+                menu(); //permet de boucler
+                break;
             case 2: System.out.println("Vous souhaitez modifier un questionnaire. Veuillez choisir le numéro correspondant. ");
-            		String nomFormulaireChoisi = Formulaire.afficherFormulaires(); //Affiche tous les formulaires
-                    if (nomFormulaireChoisi != null) {
-                        Formulaire.modifierFormulaire(nomFormulaireChoisi); //Et en MODIFIE un
-                    }
-                    menu(); 
-            		break;
+                String nomFormulaireChoisi = Formulaire.afficherFormulaires(); //Affiche tous les formulaires
+                if (nomFormulaireChoisi != null) {
+                    Formulaire.modifierFormulaire(nomFormulaireChoisi); //Et en MODIFIE un
+                }
+                menu();
+                break;
             case 3: Formulaire.supprimerFormulaire(); //Affiche tous les formulaires pour en SUPPRIMER un
-            		menu(); 
-                    break;
+                menu();
+                break;
             case 4: stats(); //Affiches les STATS
-                    break;
+                break;
             case 5: menu(); //Retourne au menu principal
-                    break;
+                break;
             case 6: System.out.println("Programme quitté. A bientôt! "); //Quitte le programme
-                    break;
+                break;
             default: System.out.println("Erreur de saisie dans la partie admin, le programme se quitte."); //On ne doit jamais arriver ici
-                     break;
+                break;
         }
-        
+
         System.out.println("");
-         //ferme le flux du scanner
+        //ferme le flux du scanner
     }
 
 
@@ -121,12 +121,12 @@ public class Menu {
         System.out.println("");
         System.out.println("Vous souhaitez répondre à un questionnaire. Veuillez choisir le numéro correspondant.  ");
         String nomFormulaireChoisi = Formulaire.afficherFormulaires();
-        
+
         System.out.println("Le nom du formulaire choisi: "+nomFormulaireChoisi);
-        
+
         if (!dateCorrecte(nomFormulaireChoisi)){
-        	System.out.println("Vous ne pouvez pas répondre à ce formulaire. Soit la session n'a pas commencée soit elle est finie.");
-        	menuClient();
+            System.out.println("Vous ne pouvez pas répondre à ce formulaire. Soit la session n'a pas commencée soit elle est finie.");
+            menuClient();
         }
         else{
             try {
@@ -138,65 +138,61 @@ public class Menu {
         }
         menu();
     }
-    
-    
+
+
     //Pre: nomFormulaire est une chaine de charactere correspondante à un formulaire existant
     //Post: renvoie true si la date du jour est entre la date de début et de fin de session du formulaire
     //      renvoie faux sinon
     public static boolean dateCorrecte(String nomFormulaire) {
-    	Boolean res = false;
+        Boolean res = false;
         try {
-        	LocalDate auj = LocalDate.now(); //la date d'aujourd'hui
+            LocalDate auj = LocalDate.now(); //la date d'aujourd'hui
             Formulaire formulaire = LectureQuestionnaires.lectureFormulaire(nomFormulaire); //on récupère le formulaire
             LocalDate debut = formulaire.getDateDebut(); //on note sa date de début
             LocalDate fin = formulaire.getDateFin(); //et de fin
-          
+
 
             /*System.out.println("Aujourd'hui nous sommes le: "+auj);
             System.out.println("La date debut du formulaire "+nomFormulaire+" est: "+debut);
             System.out.println("La date limite du formulaire "+nomFormulaire+" est: "+fin);*/
- 
-            res = (auj.isAfter(debut) && auj.isBefore(fin)); //si la date du jour est comprise dans les délais de la session
-            
-            if (auj.isEqual(debut) || auj.isEqual(debut)){ //le cas si la date du jour est aussi la date de début ou de fin est accepté
-            	res = true; 
-            }
-            
+
+
+            res = (auj.isAfter(debut) && auj.isBefore(fin));
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        
         return res;
     }
 
-    
-    
+
+
     public static void stats(){
-    
-    	Statistiques.stats();
-    		
 
-    	} 
-    	
- 
-    	
-
-    	
-
-    	
-      	
-    	
-    	//Faire des demandes ? un à un ou tout en meme temps?
-    	//Demander s'il veut à nouveau d'autres stats? 
-    	//s'il veut plus:
-    	//menu();
+        Statistiques.stats();
 
 
-    
+    }
+
+
+
+
+
+
+
+
+
+    //Faire des demandes ? un à un ou tout en meme temps?
+    //Demander s'il veut à nouveau d'autres stats?
+    //s'il veut plus:
+    //menu();
+
+
+
     //Precondition: a, b et choix sont des entiers et sc un Scanner
     //Postcondition: vérifie si la réponse saisie (choix) est comprise entre a et b (compris) sinon redemande à l'utilisateur une nouvelle saisie
     //               renvoie un entier
-    public static int verifieChoix(int a, int b, int choix, Scanner sc){ 
+    public static int verifieChoix(int a, int b, int choix, Scanner sc){
         while (choix<a || choix>b){
             System.out.print("               Veuillez saisir une valeur correcte (comprise entre "+a+" et "+b+" ): ");
             choix=sc.nextInt();
@@ -205,4 +201,3 @@ public class Menu {
     }
 
 }
-

@@ -6,11 +6,52 @@ import java.awt.event.MouseEvent;
 
 public class PageClient extends JFrame 
 {
-static PageClient thePageClient;
 
-JPanel pnPresentation;
-JLabel lbPartieC;
-JList lsListForm;
+   public static boolean RIGHT_TO_LEFT = false;
+
+   /**Fonction qui ajoute les divers panel, label et boutons au main panel */
+
+   public static void addComponentsToPane(JFrame frame, Container pane) {
+
+      if (!(pane.getLayout() instanceof BorderLayout)) {
+         pane.add(new JLabel("Le conteneur n'est pas un borderlayout !"));
+         return;
+      }
+
+      if (RIGHT_TO_LEFT) {
+         pane.setComponentOrientation(
+                 java.awt.ComponentOrientation.RIGHT_TO_LEFT);
+      }
+
+      // Ajout du premier Label
+      JLabel lbBienvenue = new JLabel("<html><HUGE>Partie client<br></HUGE>" +
+              "Choissisez un formulaire à compléter</html>");
+      lbBienvenue.setHorizontalAlignment(JLabel.CENTER);
+      lbBienvenue.setPreferredSize(new Dimension(40, 80));
+      pane.add(lbBienvenue, BorderLayout.PAGE_START);
+
+      JList lsListForm = LectureQuestionnaires.listeFormulaires();
+
+      lsListForm.setPreferredSize(new Dimension(40,40));
+      pane.add(lsListForm,BorderLayout.CENTER);
+
+      lsListForm.addMouseListener(new MouseAdapter() {
+         @Override
+         public void mouseClicked(MouseEvent mouseEvent) {
+            super.mouseClicked(mouseEvent);
+
+            JList list = (JList)mouseEvent.getSource();
+            String a = list.getSelectedValue().toString();
+
+
+            new PageReponse(a);
+
+            frame.dispose();
+         }
+      });
+
+
+   }
 /**
  */
 public static void main( String args[] ) 
@@ -31,62 +72,28 @@ public static void main( String args[] )
    catch ( UnsupportedLookAndFeelException e ) 
    {
    }
-   thePageClient = new PageClient();
+   new PageClient();
 } 
 
 /**
+ * Creation de la fenetre
  */
 public PageClient() 
 {
-   super( "TITLE" );
+   JFrame frame = new JFrame("GESTION DE QUESTIONNAIRE");
+   frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+   addComponentsToPane(frame, frame.getContentPane());
+   frame.pack();
+   frame.setSize(800,700);
+   frame.setVisible(true);
 
-   pnPresentation = new JPanel();
-   GridBagLayout gbPresentation = new GridBagLayout();
-   GridBagConstraints gbcPresentation = new GridBagConstraints();
-   pnPresentation.setLayout( gbPresentation );
 
-   lbPartieC = new JLabel( "Partie Client"  );
-   lbPartieC.setAlignmentY((float) 1.0);
-   gbcPresentation.gridx = 4;
-   gbcPresentation.gridy = 1;
-   gbcPresentation.gridwidth = 12;
-   gbcPresentation.gridheight = 3;
-   gbcPresentation.fill = GridBagConstraints.BOTH;
-   gbcPresentation.weightx = 1;
-   gbcPresentation.weighty = 1;
-   gbcPresentation.anchor = GridBagConstraints.NORTH;
-   gbPresentation.setConstraints( lbPartieC, gbcPresentation );
-   pnPresentation.add( lbPartieC );
 
-   //String []dataListForm = { "Chocolate", "Ice Cream", "Apple Pie" };
-   lsListForm = LectureQuestionnaires.listeFormulaires();
-   lsListForm.addMouseListener(new MouseAdapter() {
-      @Override
-      public void mouseClicked(MouseEvent mouseEvent) {
-         super.mouseClicked(mouseEvent);
 
-         JList list = (JList)mouseEvent.getSource();
-         String a = list.getSelectedValue().toString();
 
-         System.out.println("string a : " +a);
-      }
-   });
 
-   gbcPresentation.gridx = 4;
-   gbcPresentation.gridy = 5;
-   gbcPresentation.gridwidth = 12;
-   gbcPresentation.gridheight = 14;
-   gbcPresentation.fill = GridBagConstraints.BOTH;
-   gbcPresentation.weightx = 1;
-   gbcPresentation.weighty = 1;
-   gbcPresentation.anchor = GridBagConstraints.NORTH;
-   gbPresentation.setConstraints( lsListForm, gbcPresentation );
-   pnPresentation.add( lsListForm );
 
-   setDefaultCloseOperation( EXIT_ON_CLOSE );
-
-   setContentPane( pnPresentation );
-   pack();
-   setVisible( true );
 } 
-} 
+}
+
+

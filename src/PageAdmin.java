@@ -1,12 +1,13 @@
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class PageAdmin extends JFrame 
 {
 static PageAdmin thePageAdmin;
 
-JPanel pnPresentation;
 JLabel lbPartieA;
 JButton btCreer;
 JButton btModif;
@@ -15,8 +16,113 @@ JButton btStat;
 JButton btRet;
 JButton btExi;
 /**
+ * Ajout des composant à un main panel
  */
-public static void main( String args[] ) 
+public static boolean RIGHT_TO_LEFT = false;
+    public static void addComponentsToPane(JFrame frame, Container pane){
+
+
+       JLabel lbPartieA = new JLabel( "Partie Administrateur"  );
+        lbPartieA.setHorizontalAlignment(JLabel.CENTER);
+        lbPartieA.setPreferredSize(new Dimension(40,80));
+        pane.add(lbPartieA, BorderLayout.PAGE_START);
+
+        //Creation des boutons
+        JButton btCreer = new JButton( "Créer un nouveau Formulaire"  );
+        JButton btModif = new JButton( "Modifier un formulaire"  );
+        JButton btSuppr = new JButton( "Supprimer un formulaire"  );
+        JButton btStat = new JButton( "Obtenir des statistiques"  );
+        JButton btRet = new JButton( "Retour"  );
+        JButton btExi = new JButton( "Quitter le programme"  );
+
+        //Ajout des boutons à un sous panel
+        JPanel subPanel = new JPanel();
+        subPanel.add(btCreer);
+        subPanel.add(btModif);
+        subPanel.add(btSuppr);
+        subPanel.add(btStat);
+        subPanel.add(btRet);
+        subPanel.add(btExi);
+
+        //Ajout du sous panel au main container
+        pane.add(subPanel, BorderLayout.PAGE_END);
+
+
+
+
+
+        // Fonctions qui commande les actions en fonctions des cliques boutons
+        btCreer.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent mouseEvent) {
+                super.mouseClicked(mouseEvent);
+
+
+                PageCreer pgc = new PageCreer();
+                //pgc.setVisible(true);
+                frame.dispose();
+            }
+        });
+
+        btExi.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent mouseEvent) {
+                super.mouseClicked(mouseEvent);
+
+
+
+                frame.dispose();
+            }
+        });
+
+        btModif.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent mouseEvent) {
+                super.mouseClicked(mouseEvent);
+
+
+                PageCreer pgc = new PageCreer();
+                pgc.setVisible(true);
+                frame.dispose();
+            }
+        });
+
+        btRet.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent mouseEvent) {
+                super.mouseClicked(mouseEvent);
+
+
+               new Paccueil().main();
+                frame.dispose();
+            }
+        });
+
+        btStat.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent mouseEvent) {
+                super.mouseClicked(mouseEvent);
+
+
+                PageStat pgc = new PageStat();
+                //pgc.setVisible(true);
+                frame.dispose();
+            }
+        });
+
+        btSuppr.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent mouseEvent) {
+                super.mouseClicked(mouseEvent);
+
+
+                PageClient pgc = new PageClient();
+                pgc.setVisible(true);
+                frame.dispose();
+            }
+        });
+    }
+public static void main( String args[] )
 {
    try 
    {
@@ -34,113 +140,21 @@ public static void main( String args[] )
    catch ( UnsupportedLookAndFeelException e ) 
    {
    }
-   thePageAdmin = new PageAdmin();
+    thePageAdmin = new PageAdmin();
+
+
 } 
 
 /**
+ * Creation de la fenetre
  */
-public PageAdmin() 
+public PageAdmin()
 {
-   super( "GESTION DE QUESTIONNAIRE" );
-
-   pnPresentation = new JPanel();
-   GridBagLayout gbPresentation = new GridBagLayout();
-   GridBagConstraints gbcPresentation = new GridBagConstraints();
-   pnPresentation.setLayout( gbPresentation );
-
-   lbPartieA = new JLabel( "Partie Administrateur"  );
-   gbcPresentation.gridx = 4;
-   gbcPresentation.gridy = 1;
-   gbcPresentation.gridwidth = 12;
-   gbcPresentation.gridheight = 3;
-   gbcPresentation.fill = GridBagConstraints.BOTH;
-   gbcPresentation.weightx = 1;
-   gbcPresentation.weighty = 1;
-   gbcPresentation.anchor = GridBagConstraints.NORTH;
-   gbPresentation.setConstraints( lbPartieA, gbcPresentation );
-   pnPresentation.add( lbPartieA );
-
-   btCreer = new JButton( "Créer un nouveau Formulaire"  );
-   gbcPresentation.gridx = 2;
-   gbcPresentation.gridy = 5;
-   gbcPresentation.gridwidth = 7;
-   gbcPresentation.gridheight = 3;
-   gbcPresentation.fill = GridBagConstraints.BOTH;
-   gbcPresentation.weightx = 1;
-   gbcPresentation.weighty = 0;
-   gbcPresentation.anchor = GridBagConstraints.NORTH;
-   gbPresentation.setConstraints( btCreer, gbcPresentation );
-   pnPresentation.add( btCreer );
-
-   btModif = new JButton( "Modifier un formulaire"  );
-   btModif.setActionCommand( "" );
-   gbcPresentation.gridx = 11;
-   gbcPresentation.gridy = 5;
-   gbcPresentation.gridwidth = 7;
-   gbcPresentation.gridheight = 3;
-   gbcPresentation.fill = GridBagConstraints.BOTH;
-   gbcPresentation.weightx = 1;
-   gbcPresentation.weighty = 0;
-   gbcPresentation.anchor = GridBagConstraints.NORTH;
-   gbPresentation.setConstraints( btModif, gbcPresentation );
-   pnPresentation.add( btModif );
-
-   btSuppr = new JButton( "Supprimer un formulaire"  );
-   btSuppr.setActionCommand( "" );
-   gbcPresentation.gridx = 2;
-   gbcPresentation.gridy = 10;
-   gbcPresentation.gridwidth = 7;
-   gbcPresentation.gridheight = 3;
-   gbcPresentation.fill = GridBagConstraints.BOTH;
-   gbcPresentation.weightx = 1;
-   gbcPresentation.weighty = 0;
-   gbcPresentation.anchor = GridBagConstraints.NORTH;
-   gbPresentation.setConstraints( btSuppr, gbcPresentation );
-   pnPresentation.add( btSuppr );
-
-   btStat = new JButton( "Obtenir des statistiques"  );
-   btStat.setActionCommand( "" );
-   gbcPresentation.gridx = 11;
-   gbcPresentation.gridy = 10;
-   gbcPresentation.gridwidth = 7;
-   gbcPresentation.gridheight = 3;
-   gbcPresentation.fill = GridBagConstraints.BOTH;
-   gbcPresentation.weightx = 1;
-   gbcPresentation.weighty = 0;
-   gbcPresentation.anchor = GridBagConstraints.NORTH;
-   gbPresentation.setConstraints( btStat, gbcPresentation );
-   pnPresentation.add( btStat );
-
-   btRet = new JButton( "Retour"  );
-   btRet.setActionCommand( "" );
-   gbcPresentation.gridx = 2;
-   gbcPresentation.gridy = 15;
-   gbcPresentation.gridwidth = 7;
-   gbcPresentation.gridheight = 3;
-   gbcPresentation.fill = GridBagConstraints.BOTH;
-   gbcPresentation.weightx = 1;
-   gbcPresentation.weighty = 0;
-   gbcPresentation.anchor = GridBagConstraints.NORTH;
-   gbPresentation.setConstraints( btRet, gbcPresentation );
-   pnPresentation.add( btRet );
-
-   btExi = new JButton( "Quitter le programme"  );
-   btExi.setActionCommand( "" );
-   gbcPresentation.gridx = 11;
-   gbcPresentation.gridy = 15;
-   gbcPresentation.gridwidth = 7;
-   gbcPresentation.gridheight = 3;
-   gbcPresentation.fill = GridBagConstraints.BOTH;
-   gbcPresentation.weightx = 1;
-   gbcPresentation.weighty = 0;
-   gbcPresentation.anchor = GridBagConstraints.NORTH;
-   gbPresentation.setConstraints( btExi, gbcPresentation );
-   pnPresentation.add( btExi );
-
-   setDefaultCloseOperation( EXIT_ON_CLOSE );
-
-   setContentPane( pnPresentation );
-   pack();
-   setVisible( true );
+   JFrame frame = new JFrame("GESTION DE QUESTIONNAIRE");
+    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    addComponentsToPane(frame, frame.getContentPane());
+    frame.pack();
+    frame.setSize(800,700);
+    frame.setVisible(true);
 } 
 } 
