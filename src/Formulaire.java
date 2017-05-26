@@ -18,6 +18,7 @@ public class Formulaire implements Serializable {
     private LocalDate dateDebut;
     private LocalDate dateFin;
     private Question[] tabQuestions; //un tableau contenant l'ensemble des Questions du Formulaire
+    private int id;//Identifiant associé aux retours
     private static final long serialVersionUID = 6529685098267757690L;
 
     //Constructeur
@@ -27,19 +28,27 @@ public class Formulaire implements Serializable {
         this.dateDebut = dateDebut;
         this.dateFin = dateFin;
         this.tabQuestions = tabQuestions;
+        this.id = 1;
     }
 
+
+    //Setter
     public void setQuestions(Question[] questions){
         this.tabQuestions = questions;
 
     }
-    
+
+    public void setId(int ide){
+        this.id = ide;
+    }
+
     //Getters
     public int getNbQuestions() {return (this.nbQuestions);}
     public LocalDate getDateDebut() {return (this.dateDebut);}
     public LocalDate getDateFin() {return (this.dateFin);}
     public String getNomFormulaire() {return  (this.nomFormulaire);}
     public Question[] getTabQuestions() {return this.tabQuestions;}
+    public int getId() {return id;}
     
     //Postcondition: crée un nouvel objet de type Formulaire suite à quelques questions et l'enregistre
     public static void creerFormulaire() { 
@@ -111,7 +120,7 @@ public class Formulaire implements Serializable {
         //Menu.menuAdmin(); //Retour au menu admin
     }
 
-    //Precondition: aucune
+    //Precondition: le fichier ListeFormulaire contient la liste des formulaires existants
     //Postcondition: affiche tous les formulaires déjà créés (en lisant le fichier ListeFormulaire.txt)
     //				 et renvoie une chaine correspondante au choix de l'utilisateur (le nom du formulaire)
     public static String afficherFormulaires(){
@@ -330,4 +339,6 @@ public class Formulaire implements Serializable {
         	  + "Date de debut : "+this.getDateDebut()+"\n"
         	  + "Date de fin : " +this.getDateFin());
     }
+
+
 }

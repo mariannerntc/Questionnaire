@@ -1,19 +1,19 @@
 
 import javax.swing.*;
-        import java.awt.*;
-        import java.io.File;
-        import java.io.FileNotFoundException;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import java.awt.*;
+import java.io.FileNotFoundException;
+import java.util.*;
+import java.util.List;
 
-public class PageReponse extends JFrame
+public class PageReponse
 {
-    static PageReponse thePageReponse;
 
-    JPanel pnPageReponse;
 
-    JCheckBox cbOui;
     JCheckBox cbNon;
     JTextField tfRep;
-    JTable tbTable0;
+
     /**
      */
     public static void main( String args[] )
@@ -35,24 +35,24 @@ public class PageReponse extends JFrame
         {
         }
 
+
+
     }
 
+
     /**
+     * Fonction qui est censé rechercher un questionnaire et l'afficher
      */
     public PageReponse(String nomFormulaire)
     {
 
 
-        super( "TITLE" );
-        pnPageReponse = new JPanel();
-        GridBagLayout gbPageReponse = new GridBagLayout();
-        GridBagConstraints gbcPageReponse = new GridBagConstraints();
-        pnPageReponse.setLayout( gbPageReponse );
+        JFrame frame = new JFrame("Resizing Table");
 
+        List<String> columns = new ArrayList<String>();
+        List<String> values = new ArrayList<>();
 
-
-
-        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        columns.add(nomFormulaire);//la premiere ligne correspondra au nom du formulaire
 
         Formulaire formu = null;
 
@@ -62,63 +62,35 @@ public class PageReponse extends JFrame
             e.printStackTrace();
         }
 
-        Question[] quest = formu.getTabQuestions();
+        Question[] quest = formu.getTabQuestions(); // On recupere un tableau de question
         int i;
 
-        for (i =0; i<formu.getNbQuestions();i++)
+        for (i =0; i<formu.getNbQuestions();i++) // Pour chaque question
         {
-            String type = quest[i].getTyperetour();
-            System.out.println("Question 1:" +type);
+            String type = quest[i].getTyperetour(); // on determine son type de retour
+
 
             if (type.equals("o"))
             {
-
+                values.add(i, quest[i].getIntitule()); // On recupere et affiche la question
 
             }else if(type.equals("f"))
             {
                 System.out.println("un fermé");
             }
+
         }
-        cbOui = new JCheckBox( "Oui"  );
-        gbcPageReponse.gridx = 4;
-        gbcPageReponse.gridy = 5;
-        gbcPageReponse.gridwidth = 1;
-        gbcPageReponse.gridheight = 1;
-        gbcPageReponse.fill = GridBagConstraints.BOTH;
-        gbcPageReponse.weightx = 1;
-        gbcPageReponse.weighty = 0;
-        gbcPageReponse.anchor = GridBagConstraints.NORTH;
-        gbPageReponse.setConstraints( cbOui, gbcPageReponse );
-        pnPageReponse.add( cbOui );
 
-        cbNon = new JCheckBox( "Non"  );
-        gbcPageReponse.gridx = 15;
-        gbcPageReponse.gridy = 5;
-        gbcPageReponse.gridwidth = 1;
-        gbcPageReponse.gridheight = 1;
-        gbcPageReponse.fill = GridBagConstraints.BOTH;
-        gbcPageReponse.weightx = 1;
-        gbcPageReponse.weighty = 0;
-        gbcPageReponse.anchor = GridBagConstraints.NORTH;
-        gbPageReponse.setConstraints( cbNon, gbcPageReponse );
-        pnPageReponse.add( cbNon );
 
-        tfRep = new JTextField( );
-        gbcPageReponse.gridx = 9;
-        gbcPageReponse.gridy = 10;
-        gbcPageReponse.gridwidth = 1;
-        gbcPageReponse.gridheight = 1;
-        gbcPageReponse.fill = GridBagConstraints.BOTH;
-        gbcPageReponse.weightx = 1;
-        gbcPageReponse.weighty = 0;
-        gbcPageReponse.anchor = GridBagConstraints.NORTH;
-        gbPageReponse.setConstraints( tfRep, gbcPageReponse );
-        pnPageReponse.add( tfRep );
+        //Mettre chaque question dans un tableau
+        TableModel tableModel = new DefaultTableModel(values.toArray(new Object[][] {}), columns.toArray());
+        JTable table = new JTable(tableModel);
+        frame.setLayout(new BorderLayout());
+        frame.add(new JScrollPane(table), BorderLayout.CENTER);
+        frame.add(table.getTableHeader(), BorderLayout.NORTH);
+        frame.setVisible(true);
+        frame.setSize(400,400);
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 
-        setDefaultCloseOperation( EXIT_ON_CLOSE );
-
-        setContentPane( pnPageReponse );
-        pack();
-        setVisible( true );
     }
 }

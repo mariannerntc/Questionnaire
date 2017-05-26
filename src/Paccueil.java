@@ -1,20 +1,95 @@
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class Paccueil extends JFrame
 {
-   static Paccueil thePaccueil;
 
-   JPanel pnPresentation;
-   ButtonGroup rbgPresentation;
-   JTextArea tfBienvenue;
-   JButton tbtBoutonForm;
-   JButton tbtBoutonAdmin;
-   JTextArea taArea0;
+
    /**
     */
-   public static void main( String args[] )
+   public static boolean RIGHT_TO_LEFT = false;
+
+   /**Fonction qui ajoute les divers panel, label et boutons au main panel */
+
+   public static void addComponentsToPane(JFrame frame, Container pane) {
+
+      if (!(pane.getLayout() instanceof BorderLayout)) {
+         pane.add(new JLabel("Le conteneur n'est pas un borderlayout !"));
+         return;
+      }
+
+      if (RIGHT_TO_LEFT) {
+         pane.setComponentOrientation(
+                 java.awt.ComponentOrientation.RIGHT_TO_LEFT);
+      }
+
+      // Ajout du premier Label
+      JLabel lbBienvenue= new JLabel("<html><HUGE>Bienvenue sur notre application de gestion de questionnaires.</HUGE></html>");
+      lbBienvenue.setHorizontalAlignment(JLabel.CENTER);
+      lbBienvenue.setPreferredSize(new Dimension(40,80));
+      pane.add(lbBienvenue, BorderLayout.PAGE_START);
+
+      // Ajout d'un second Label
+      JLabel lbPresentation = new JLabel("<html>PROJET GENIE LOGICIEL N°2 <br> Ce logiciel vous facilite la gestion de vos formulaires,<br> " +
+              "L'administrateur pourra gérer l'ensemble des formulaires existant, <br>" +
+              "l'utilisateur pourra répondre aux formulaires directement sur l'application.<br>" +
+              "Auteur : ARIES, BELGUENDOUZ, DUMUR, RENTCHLER, SCHALL </html>");
+      lbPresentation.setHorizontalAlignment(JLabel.CENTER);
+      lbPresentation.setPreferredSize(new Dimension(400, 400));
+      pane.add(lbPresentation, BorderLayout.CENTER);
+
+      //Ajout des deux bouton
+      JButton tbtBoutonForm = new JButton("Accéder à la partie client");
+      JButton tbtBoutonAdmin = new JButton("Accéder à la partie administrateur");
+      JPanel subPanel = new JPanel();
+      subPanel.add(tbtBoutonForm);
+      subPanel.add(tbtBoutonAdmin);
+      pane.add(subPanel, BorderLayout.PAGE_END);
+
+      //MouseListener permettant les actions en cas de clique sur l'un des boutons
+      tbtBoutonForm.addMouseListener(new MouseAdapter() {
+         @Override
+         public void mouseClicked(MouseEvent mouseEvent) {
+            super.mouseClicked(mouseEvent);
+
+            //On se redirige puis on referme la page actuelle
+            PageClient pgc = new PageClient();
+            pgc.setVisible(true);
+            frame.dispose();
+         }
+      });
+
+      tbtBoutonAdmin.addMouseListener(new MouseAdapter() {
+         @Override
+         public void mouseClicked(MouseEvent mouseEvent) {
+            super.mouseClicked(mouseEvent);
+
+
+            PageAdmin pgc = new PageAdmin();
+            pgc.setVisible(true);
+            frame.dispose();
+         }
+      });
+
+   }
+
+   /** Fonction qui va créé la frame */
+   private static void creationFr() {
+
+      //Creation de la page
+      JFrame frame = new JFrame("GESTION DE QUESTIONNAIRE");
+      frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+      addComponentsToPane(frame, frame.getContentPane());
+      frame.pack();
+      frame.setSize(800,700);
+      frame.setVisible(true);
+   }
+
+
+   public static void main()
    {
       try
       {
@@ -32,92 +107,12 @@ public class Paccueil extends JFrame
       catch ( UnsupportedLookAndFeelException e )
       {
       }
-      thePaccueil = new Paccueil();
+
+      javax.swing.SwingUtilities.invokeLater(new Runnable() {
+         public void run() {
+            creationFr();
+         }
+      });
    }
 
-   /**
-    */
-   public Paccueil()
-   {
-      super( "GESTION DE QUESTIONNAIRE" );
-
-      pnPresentation = new JPanel();
-      rbgPresentation = new ButtonGroup();
-      GridBagLayout gbPresentation = new GridBagLayout();
-      GridBagConstraints gbcPresentation = new GridBagConstraints();
-      pnPresentation.setLayout( gbPresentation );
-
-      tfBienvenue = new JTextArea("Bienvenue" );
-      gbcPresentation.gridx = 4;
-      gbcPresentation.gridy = 2;
-      gbcPresentation.gridwidth = 12;
-      gbcPresentation.gridheight = 3;
-      gbcPresentation.fill = GridBagConstraints.BOTH;
-      gbcPresentation.weightx = 1;
-      gbcPresentation.weighty = 0;
-      gbcPresentation.anchor = GridBagConstraints.NORTH;
-      gbPresentation.setConstraints( tfBienvenue, gbcPresentation );
-      pnPresentation.add( tfBienvenue );
-
-      tbtBoutonForm = new JButton( "Répondre à un formulaire"  );
-      tbtBoutonForm.setActionCommand("form");
-
-      rbgPresentation.add( tbtBoutonForm );
-      gbcPresentation.gridx = 2;
-      gbcPresentation.gridy = 15;
-      gbcPresentation.gridwidth = 7;
-      gbcPresentation.gridheight = 3;
-      gbcPresentation.fill = GridBagConstraints.BOTH;
-      gbcPresentation.weightx = 1;
-      gbcPresentation.weighty = 0;
-      gbcPresentation.anchor = GridBagConstraints.NORTH;
-      gbPresentation.setConstraints( tbtBoutonForm, gbcPresentation );
-      pnPresentation.add( tbtBoutonForm );
-
-      tbtBoutonAdmin = new JButton( "Accéder à la partie administrateur"  );
-      tbtBoutonAdmin.setActionCommand("admin");
-
-      rbgPresentation.add( tbtBoutonAdmin );
-      gbcPresentation.gridx = 11;
-      gbcPresentation.gridy = 15;
-      gbcPresentation.gridwidth = 7;
-      gbcPresentation.gridheight = 3;
-      gbcPresentation.fill = GridBagConstraints.BOTH;
-      gbcPresentation.weightx = 1;
-      gbcPresentation.weighty = 0;
-      gbcPresentation.anchor = GridBagConstraints.NORTH;
-      gbPresentation.setConstraints( tbtBoutonAdmin, gbcPresentation );
-      pnPresentation.add( tbtBoutonAdmin );
-
-      JTextArea taArea0 = new JTextArea(
-              "Logiciel de traitement de formulaire.\n " +
-                      "Produit par moi  \n " +
-                      "Réalisé par moi \n " +
-                      "Pensé par moi \n"
-      );
-      taArea0.setFont(new Font("Serif", Font.ITALIC, 16));
-      taArea0.setLineWrap(true);
-      taArea0.setWrapStyleWord(true);
-      gbcPresentation.gridx = 1;
-      gbcPresentation.gridy = 6;
-      gbcPresentation.gridwidth = 18;
-      gbcPresentation.gridheight = 7;
-      gbcPresentation.fill = GridBagConstraints.BOTH;
-      gbcPresentation.weightx = 1;
-      gbcPresentation.weighty = 1;
-      gbcPresentation.anchor = GridBagConstraints.NORTH;
-      gbPresentation.setConstraints( taArea0, gbcPresentation );
-      pnPresentation.add( taArea0 );
-
-      setDefaultCloseOperation( EXIT_ON_CLOSE );
-
-      setContentPane( pnPresentation );
-      pack();
-      setVisible( true );
-
-
-      Controller controller = new Controller();
-      tbtBoutonForm.addActionListener( controller);
-      tbtBoutonAdmin.addActionListener(controller);
-   }
 }
