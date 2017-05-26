@@ -39,9 +39,8 @@ public class Statistiques {
             System.out.println("Veuillez choisir le type de statistiques que vous désirez obtenir");
             System.out.println("    1- Afficher les retours");
             System.out.println("    2- Statistiques Univariées");
-            System.out.println("    3- Statistiques bivariées");
-            System.out.println("    4- Statistiques multivariées");
-            System.out.println("    5- Retour");
+            System.out.println("    3- Statistiques multivariées");
+            System.out.println("    4- Retour");
             choix = sc.nextInt();
             while(!((choix <6)&(choix>0))){
                 Menu.verifieChoix(1,5,choix,sc);
@@ -77,9 +76,6 @@ public class Statistiques {
                 	
                     break;
                 case 3:
-                    //etudie les variables deux à deux
-                    break;
-                case 4:
                     //variablesAEtudier = Auxiliaires.choixQuestion(questionnaire);
                 	
                     System.out.println("Quel type d'analyse souhaitez vous ?");
