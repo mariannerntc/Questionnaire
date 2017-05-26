@@ -156,10 +156,10 @@ public class Menu {
             System.out.println("La date debut du formulaire "+nomFormulaire+" est: "+debut);
             System.out.println("La date limite du formulaire "+nomFormulaire+" est: "+fin);*/
  
-            res = (auj.isAfter(debut) && auj.isBefore(fin));
+            res = (auj.isAfter(debut) && auj.isBefore(fin)); //si la date du jour est comprise dans les délais de la session
             
             if (auj.isEqual(debut) || auj.isEqual(debut)){ //le cas si la date du jour est aussi la date de début ou de fin est accepté
-            	res = true;
+            	res = true; 
             }
             
         } catch (FileNotFoundException e) {
