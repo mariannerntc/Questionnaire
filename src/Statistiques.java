@@ -80,8 +80,27 @@ public class Statistiques {
                     break;
                 case 4:
                     //variablesAEtudier = Auxiliaires.choixQuestion(questionnaire);
-                    Statistiques2.acp(questionnaire);
-                    //effectue l'ACP
+                	
+                    System.out.println("Quel type d'analyse souhaitez vous ?");
+                    System.out.println("    1- ACP (uniquement des variables quantitatives)");
+                    System.out.println("    2- AFC (uniquement des variables qualitatives)");
+                    
+                    int choix4 = sc.nextInt();
+                    while(!((choix4 <3)&(choix4>0))){
+                        Menu.verifieChoix(1,2,choix4,sc);
+                    }
+
+                    switch (choix4){
+                        case 1:
+                            //Affiche un histogramme
+                        	Statistiques2.acp(questionnaire);
+                            break;
+                        case 2:
+                            //Affiche toutes les statistiques univariées
+                        	Statistiques2.afc(questionnaire);
+                            break;
+                    }
+                	
                     break;
                 default:
                     //Revient au menu

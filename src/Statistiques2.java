@@ -13,40 +13,27 @@ public class Statistiques2 {
 	public static void acp(Formulaire questionnaire){
 	    
     	String nomFormulaireChoisi = questionnaire.getNomFormulaire();
-
-
-
-		//Rengine r = new Rengine(new String[]{"--no-save"}, false, null);
-        Rengine r = Rengine.getMainEngine();
-        if(r == null)
-            r = new Rengine(new String[] {"--vanilla"}, false, null);
-
+    	 Rengine r = Rengine.getMainEngine();
+         if(r == null)
+             r = new Rengine(new String[] {"--vanilla"}, false, null);
+    	r.eval("Dataset <- read.table('" + nomFormulaireChoisi + ".csv', header=TRUE, sep=',', na.strings='NA', dec='.', strip.white=TRUE)");
     	r.eval("library(JavaGD)"); // on lance la librairie JavaGD
     	r.eval("library(FactoMineR)"); //on "lance" la librairie factominer
     	
- 
     	r.eval("Dataset <- read.table('" + nomFormulaireChoisi + ".csv', header=TRUE, sep=',', na.strings='NA', dec='.', strip.white=TRUE)");//Recupere le fichier des retours
     	System.out.println("Veuillez selectionner les variables quantitatives que vous souhaitez étudier (Au moins 2)");
 		List<String> variables = Auxiliaires.choixQuestion(questionnaire);
 		String liste = new String();
 		for (String intitule  : variables){
-			liste = liste + "'" + intitule + "', ";
+			liste = liste+"'"+ intitule +"', ";
 		}
-		liste.substring(0,liste.length()-1);
+		liste = liste.substring(0,liste.length()-2);
     	r.eval("Dataset.PCA<-Dataset[, c("+ liste+")]");
     	r.eval("res<-PCA(Dataset.PCA , scale.unit=TRUE, ncp=5, graph = FALSE)");
-    	r.eval("JavaGD()"); //A chaque fois qu'on affiche un graphique on met cette commande pour que le graphique soit dans la fenetre
-    	r.eval("plot.PCA(res, axes=c(1, 2), choix='ind', habillage='none', col.ind='black', col.ind.sup='blue', col.quali='magenta', label=c('ind', 'ind.sup', 'quali')");
-    	//r.eval("JavaGD(width=800, height=700, ps=12)");     	//r.eval("plot.PCA(res, axes=c(1, 2), choix=\"ind\", habillage=\"none\", col.ind=\"black\", col.ind.sup=\"blue\", col.quali=\"magenta\", label=c(\"ind\", \"ind.sup\", \"quali\"))"); 
-    	r.eval("JavaGD(name='Individuals Factor Map', width=800, height=700)"); 
+    	r.eval("JavaGD(width=800, height=700)"); //A chaque fois qu'on affiche un graphique on met cette commande pour que le graphique soit dans la fenetre
+    	r.eval("plot.PCA(res, axes=c(1, 2), choix=\"ind\", habillage=\"none\", col.ind=\"black\", col.ind.sup=\"blue\", col.quali=\"magenta\", label=c(\"ind\", \"ind.sup\", \"quali\"))"); 
+    	r.eval("JavaGD(width=800, height=700)"); 
     	r.eval("plot.PCA(res, axes=c(1, 2), choix=\"var\", col.var=\"black\", col.quanti.sup=\"blue\", label=c(\"var\", \"quanti.sup\"), lim.cos2.var=0)");
-    	
-    	
-    	//A LIRE
-    	//Les 2 plot.PCA au dessus affiche l'ACP, pour l'automatiser il faudrait donc changer le r.eval à la ligne 25 changer le bonjour et le salut par les variables que l'admin veut, sachant qu'il peut en mettre un nombre "ilimité" tant qu'elles sont quantitatives
-    	//ici actuellement pour faire marcher le programme il faut avoir le fichier q1.csv dans le répertoire du projet et que celui ci soit rempli
-    	//A LIRE
-    	
     	
 }
 	
@@ -164,7 +151,33 @@ public class Statistiques2 {
             break;
         }
 		
-	}}
+	}
+	public static void afc(Formulaire questionnaire){
+    	String nomFormulaireChoisi = questionnaire.getNomFormulaire();
+   	 Rengine r = Rengine.getMainEngine();
+        if(r == null)
+            r = new Rengine(new String[] {"--vanilla"}, false, null);
+		r.eval("library(FactoMineR)"); //on "lance" la librairie factominer
+		r.eval("Dataset <- read.table('" + nomFormulaireChoisi + ".csv', header=TRUE, sep=',', na.strings='NA', dec='.', strip.white=TRUE)");
+	   	System.out.println("Veuillez selectionner les variables quantitatives que vous souhaitez étudier (Au moins 2)");
+			List<String> variables = Auxiliaires.choixQuestion(questionnaire);
+			String listemca = new String();
+			for (String intitule  : variables){
+				listemca = listemca+"'"+ intitule +"', ";
+			}
+			listemca = listemca.substring(0,listemca.length()-2);
+	   	r.eval("Dataset.MCA<-Dataset[, c("+ listemca+")]");
+		//r.eval("Dataset.MCA<-Dataset[, c('bonjour1', 'bonjour2', 'bonjour3')]");
+		r.eval("res<-MCA(Dataset.MCA, ncp=5, graph = FALSE)");
+		r.eval("JavaGD(width=800, height=700, ps=12)"); 
+		r.eval("plot.MCA(res, axes=c(1, 2), col.ind='black', col.ind.sup='blue', col.var='darkred', col.quali.sup='darkgreen', label=c('ind', 'ind.sup', 'quali.sup', 'var'))"); 
+		r.eval("JavaGD(width=800, height=700)"); 
+		r.eval("plot.MCA(res, axes=c(1, 2), choix='var', col.var='darkred', col.quali.sup='darkgreen', label=c('var', 'quali.sup'))");
+
+
+		
+	}
+}
 
 //r.eval("library(FactoMineR)"); //on "lance" la librairie factominer
 //r.eval("Dataset <- read.table('" + nomFormulaireChoisi + ".csv', header=TRUE, sep=',', na.strings='NA', dec='.', strip.white=TRUE)");
