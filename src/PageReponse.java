@@ -90,6 +90,7 @@ public class PageReponse
         frame.add(table.getTableHeader(), BorderLayout.NORTH);
         frame.setVisible(true);
         frame.setSize(400,400);
+        frame.setLocationRelativeTo(null);
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 
     }

@@ -35,16 +35,21 @@ public class Menu {
         System.out.println("|                                           \"  \"        |");
         System.out.println("| 1- Répondre à un formulaire                           |");
         System.out.println("| 2- Accéder à la partie administrateur                 |");
+
+        System.out.println("| 3- Demonstration IHM                                  |");
         System.out.println("|                                                       |");
         System.out.print("|    Que souhaitez vous faire? ");
 
         Scanner sc = new Scanner(System.in);
         int choix = sc.nextInt();
-        verifieChoix(1, 2, choix, sc); //Vérifie si l'utilisateur a rentré 1 ou 2
+        verifieChoix(1, 3, choix, sc); //Vérifie si l'utilisateur a rentré 1 ou 2
 
         //Selon le choix
         if (choix==2){ menuAdmin(); } //affiche la partie admin
-        else{ menuClient();} //affiche la partie client
+        else if (choix==1) { menuClient();} //affiche la partie client
+        else{
+        	Paccueil.main();
+        }
 
         System.out.println("");
     }

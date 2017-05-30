@@ -34,6 +34,21 @@ public class PageClient extends JFrame
 
       lsListForm.setPreferredSize(new Dimension(40,40));
       pane.add(lsListForm,BorderLayout.CENTER);
+      
+      JButton btRet = new JButton( "Retour"  );
+      pane.add(btRet,BorderLayout.SOUTH);
+      
+      btRet.addMouseListener(new MouseAdapter() {
+          @Override
+          public void mouseClicked(MouseEvent mouseEvent) {
+              super.mouseClicked(mouseEvent);
+
+
+             new Paccueil();
+			Paccueil.main();
+              frame.dispose();
+          }
+      });
 
       lsListForm.addMouseListener(new MouseAdapter() {
          @Override
@@ -85,6 +100,7 @@ public PageClient()
    addComponentsToPane(frame, frame.getContentPane());
    frame.pack();
    frame.setSize(800,700);
+   frame.setLocationRelativeTo(null);
    frame.setVisible(true);
 
 

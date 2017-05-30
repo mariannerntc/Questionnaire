@@ -66,6 +66,7 @@ public class PageCreer extends JFrame{
 
         frame.pack();
         frame.setSize(800,700);
+        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 
     }

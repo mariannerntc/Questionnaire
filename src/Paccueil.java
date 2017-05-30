@@ -85,6 +85,7 @@ public class Paccueil extends JFrame
       addComponentsToPane(frame, frame.getContentPane());
       frame.pack();
       frame.setSize(800,700);
+      frame.setLocationRelativeTo(null);
       frame.setVisible(true);
    }
 
